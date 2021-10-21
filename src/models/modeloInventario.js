@@ -1,36 +1,33 @@
 const sequelize = require('sequelize');
 const db = require('../config/db.js')
 const Carrito = db.define(
-    "Carrito",{
-        carritoId:{
+    "Inventario",{
+        inventarioId:{
             type: sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false
         },
-        carritoCreadoEl:{
+        inventariosExistencias:{
+            type: sequelize.FLOAT,
+            defaultValue: sequelize.NOW
+        },
+        inventarioFechaCaducidad:{
             type: sequelize.DATE,
             defaultValue: sequelize.NOW
         },
-        carritoActualizadoEl:{
-            type: sequelize.DATE,
-            defaultValue: sequelize.NOW
-        },
-        carritoEstado:{
-            type: sequelize.STRING
-        },
-        usuarioId:{
+        productoId:{
             type: sequelize.INTEGER,
             references:{
-                model: Usuario,
-                key: 'usuarioId',
+                model: Producto,
+                key: 'productoId',
                 deferrable: Deferrable.INITIALLY_IMMEDIATE
             }
         }
     },{
         sequelize,
-        modelName: "Carrito",
-        tableName: "Carrito",
+        modelName: "Inventario",
+        tableName: "Inventario",
         timestamps: false,
     }
 );
