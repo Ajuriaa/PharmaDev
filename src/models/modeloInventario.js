@@ -31,3 +31,4 @@ const Carrito = db.define(
         timestamps: false,
     }
 );
+module.exports = Inventario;
