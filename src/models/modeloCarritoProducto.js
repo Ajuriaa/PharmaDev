@@ -16,7 +16,8 @@ const CarritoProducto = db.define(
             type: sequelize.INTEGER
         },
         carritoProductoFechaAñadido:{
-            type: sequelize.DATE
+            type: sequelize.DATE,
+            defaultValue: sequelize.NOW
         },
         carritoProductoFechaActualizado:{
             type: sequelize.DATE
@@ -34,3 +35,4 @@ const CarritoProducto = db.define(
         timestamps: false,
     }
 );
+module.exports = CarritoProducto;

@@ -20,12 +20,7 @@ const Carrito = db.define(
             type: sequelize.STRING
         },
         usuarioId:{
-            type: sequelize.INTEGER,
-            references:{
-                model: Usuario,
-                key: 'usuarioId',
-                deferrable: Deferrable.INITIALLY_IMMEDIATE
-            }
+            type: sequelize.STRING(13)
         }
     },{
         sequelize,

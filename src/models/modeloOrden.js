@@ -10,7 +10,7 @@ const Orden = db.define(
             allowNull: false,
         },
         usuarioId: {
-            type: sequelize.INTEGER,
+            type: sequelize.STRING(13),
             allowNull: false,
         },
         ordenEstado: {
@@ -39,7 +39,6 @@ const Orden = db.define(
         },
         ordenActualizadoEl: {
             type: sequelize.DATE,
-            allowNull: false,
         },
     },
     {

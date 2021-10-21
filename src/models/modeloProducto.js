@@ -35,19 +35,9 @@ const Producto = db.define(
         },
         laboratorioId:{
             type: sequelize.INTEGER,
-            references:{
-                model: Laboratorio,
-                key: 'laboratorioId',
-                deferrable: Deferrable.INITIALLY_IMMEDIATE
-            }
         },
         presentacionId:{
             type: sequelize.INTEGER,
-            references:{
-                model: Presentacion,
-                key: 'presentacionId',
-                deferrable: Deferrable.INITIALLY_IMMEDIATE
-            }
         }
     },{
         sequelize,

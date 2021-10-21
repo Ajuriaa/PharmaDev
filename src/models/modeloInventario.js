@@ -8,21 +8,14 @@ const Carrito = db.define(
             autoIncrement: true,
             allowNull: false
         },
-        inventariosExistencias:{
-            type: sequelize.FLOAT,
-            defaultValue: sequelize.NOW
+        inventarioExistencia:{
+            type: sequelize.FLOAT
         },
         inventarioFechaCaducidad:{
-            type: sequelize.DATE,
-            defaultValue: sequelize.NOW
+            type: sequelize.DATE
         },
         productoId:{
-            type: sequelize.INTEGER,
-            references:{
-                model: Producto,
-                key: 'productoId',
-                deferrable: Deferrable.INITIALLY_IMMEDIATE
-            }
+            type: sequelize.INTEGER
         }
     },{
         sequelize,

@@ -4,7 +4,7 @@ const Usuario = db.define(
     "Usuario",
     {
         usuarioId: {
-            type: sequelize.INTEGER,
+            type: sequelize.STRING(13),
             primaryKey: true,
             autoIncrement: true,
             allowNull: false,
@@ -19,8 +19,17 @@ const Usuario = db.define(
         usuarioCorreo: {
             type: sequelize.STRING(50),
         },
-        usuarioContraseña: {
+        usuarioContrasena: {
             type: sequelize.STRING(50),
+        },
+        usuarioDireccion: {
+            type: sequelize.STRING(100),
+        },
+        usuarioFechaNacimiento: {
+            type: sequelize.DATE,
+        },
+        usuarioSexo: {
+            type: sequelize.STRING(1),
         },
         usuarioAdmin: {
             type: sequelize.TINYINT,

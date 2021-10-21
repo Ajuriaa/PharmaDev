@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/db');
-const Usuario = db.define(
+const OrdenProducto = db.define(
     "OrdenProducto",
     {
         ordenProductoId: {
