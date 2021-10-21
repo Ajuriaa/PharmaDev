@@ -7,9 +7,8 @@ const rutasInventario= require('./routes/inventario/index');
 const rutasLaboratorio = require('./routes/laboratorio/index');
 const rutasOrden = require('./routes/orden/index');
 const rutasPresentacion= require('./routes/presentacion/index');
-const rutasOrdenProducto = require('./routes/ordenProdcuto/index');
+const rutasOrdenProducto = require('./routes/ordenProductos/index');
 const rutasProductos= require('./routes/productos/index');
-const rutasPresentacion = require('./models/modeloPresentacion');
 
 const app = express();
 app.set('port', 7777);

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const controladorUsuarios = require('../../controllers/contraladorUsuarios');
+const controladorUsuarios = require('../../controllers/controladorUsuarios');
 router.get('/', controladorUsuarios.listarUsuarios);
 router.post('/', controladorUsuarios.Guardar);
 router.delete('/', controladorUsuarios.EliminarQuery);

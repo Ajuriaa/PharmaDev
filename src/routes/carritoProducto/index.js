@@ -1,8 +1,8 @@
 const { Router } = require('express');
 const router = Router();
 const controladorCarritoProducto = require('../../controllers/controladorCarritoProducto');
-router.get('/', controladorCarritoProducto.listarPresentaciones);
-router.post('/', controladorCarritoProducto.GuardarPresentacion);
-router.delete('/', controladorCarritoProducto.EliminarQueryPresentacion);
-router.put('/', controladorCarritoProducto.ActualizarQueryPresentacion);
+router.get('/', controladorCarritoProducto.listarCarritoProductos);
+router.post('/', controladorCarritoProducto.Guardar);
+router.delete('/', controladorCarritoProducto.EliminarQuery);
+router.put('/', controladorCarritoProducto.ActualizarQuery);
 module.exports = router;

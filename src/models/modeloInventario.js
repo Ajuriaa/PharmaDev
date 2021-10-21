@@ -1,6 +1,6 @@
 const sequelize = require('sequelize');
 const db = require('../config/db.js')
-const Carrito = db.define(
+const Inventario = db.define(
     "Inventario",{
         inventarioId:{
             type: sequelize.INTEGER,
