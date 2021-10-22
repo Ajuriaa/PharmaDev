@@ -26,7 +26,8 @@ const CarritoProducto = db.define(
             type: sequelize.INTEGER
         },
         carritoProductoActivo:{
-            type: sequelize.TINYINT
+            type: sequelize.TINYINT,
+            defaultValue:true
         },
     },{
         sequelize,
