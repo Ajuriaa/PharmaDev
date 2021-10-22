@@ -31,6 +31,3 @@ app.use('/api/orden/', rutasOrden);
 app.use('/api/ordenProducto/', rutasOrdenProducto);
 app.use('/api/productos/', rutasProductos);
 app.use('/api/presentacion/', rutasPresentacion);
-
-
-
