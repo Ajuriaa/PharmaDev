@@ -1,22 +1,25 @@
 const {
     Router
-} = require('express');
-const router = Router();
+} = require('express')
+const router = Router()
 const {
     body
-} = require('express-validator');
-const controladorLaboratorios = require('../../controllers/controladorLaboratorios');
+} = require('express-validator')
+const controladorLaboratorios = require('../../controllers/controladorLaboratorios')
+const controladorAutenticacion = require("../../controllers/controladorAutenticacion")
 
-router.get('/', controladorLaboratorios.listarLaboratorios);
+router.get('/', controladorAutenticacion.validarAutenticado, controladorLaboratorios.listarLaboratorios)
 router.post('/',
     body('laboratorioNombre').isLength({
         min: 3
     }).withMessage('El nombre del laboratorio debe tener al menos 3 caracteres'),
-    controladorLaboratorios.Guardar);
-router.delete('/', controladorLaboratorios.Eliminar);
+    controladorAutenticacion.validarAutenticado,
+    controladorLaboratorios.Guardar)
+router.delete('/', controladorAutenticacion.validarAutenticado, controladorLaboratorios.Eliminar)
 router.put('/',
     body('laboratorioNombre').isLength({
         min: 3
     }).withMessage('El nombre del laboratorio debe tener al menos 3 caracteres'),
-    controladorLaboratorios.Actualizar);
-module.exports = router;
+    controladorAutenticacion.validarAutenticado,
+    controladorLaboratorios.Actualizar)
+module.exports = router

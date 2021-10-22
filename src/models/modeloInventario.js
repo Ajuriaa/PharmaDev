@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+const sequelize = require('sequelize')
 const db = require('../config/db.js')
 const Inventario = db.define(
     "Inventario",{
@@ -23,5 +23,5 @@ const Inventario = db.define(
         tableName: "Inventario",
         timestamps: false,
     }
-);
-module.exports = Inventario;
+)
+module.exports = Inventario

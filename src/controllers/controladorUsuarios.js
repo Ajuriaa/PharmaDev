@@ -1,17 +1,17 @@
-const Usuario = require('../models/modeloUsuario');
-const msj = require('../components/mensaje');
+const Usuario = require('../models/modeloUsuario')
+const msj = require('../components/mensaje')
 const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 const {
     Op
-} = require("sequelize");
+} = require("sequelize")
 
 
 exports.listarUsuarios = async (req, res) => {
-    const usu = await Usuario.findAll();
+    const usu = await Usuario.findAll()
     msj("Peticion procesada correctamente", 200, usu, res)
-};
+}
 
 
 exports.Guardar = async (req, res) => {
@@ -29,7 +29,7 @@ exports.Guardar = async (req, res) => {
             usuarioFechaNacimiento,
             usuarioDireccion,
             usuarioSexo
-        } = req.body;
+        } = req.body
         const BuscarUsuario = await Usuario.findOne({
             where: {
                 [Op.or]: {
@@ -53,17 +53,17 @@ exports.Guardar = async (req, res) => {
                 msj("Registro almacenado correctamente", 200, dato, res)
             }).catch((error) => {
                 msj("Error al guardar los datos", 200, error, res)
-            });
+            })
         } else {
             msj("El correo electronico o el numero de identidad ya esta en uso", 200, [], res)
         }
     }
-};
+}
 
 exports.Eliminar = async (req, res) => {
     const {
         usuarioId
-    } = req.body;
+    } = req.body
     if (!usuarioId) {
         msj("Debe enviar el numero de identidad del usuario", 200, [], res)
     } else {
@@ -71,7 +71,7 @@ exports.Eliminar = async (req, res) => {
             where: {
                 usuarioId: usuarioId,
             }
-        });
+        })
         if (!buscarUsuario) {
             msj("El usuario no existe", 200, [], res)
         } else {
@@ -83,10 +83,10 @@ exports.Eliminar = async (req, res) => {
                 msj("El registro ha sido eliminado", 200, [data], res)
             }).catch((error) => {
                 msj("El registro no fue eliminado, porque hay un eror en el servidor", 200, [error], res)
-            });
+            })
         }
     }
-};
+}
 
 exports.Actualizar = async (req, res) => {
     const {
@@ -99,7 +99,7 @@ exports.Actualizar = async (req, res) => {
         usuarioFechaNacimiento,
         usuarioDireccion,
         usuarioSexo
-    } = req.body;
+    } = req.body
     if (!usuarioId) {
         msj("Debe enviar el numero de identidad del usuario", 200, [], res)
     } else {
@@ -107,7 +107,7 @@ exports.Actualizar = async (req, res) => {
             where: {
                 usuarioId: usuarioId,
             }
-        });
+        })
         if (!buscarUsuario) {
             msj("El usuario no existe", 200, [], res)
         } else {
@@ -115,15 +115,15 @@ exports.Actualizar = async (req, res) => {
                 if (!usuarioNombre || !usuarioTelefono || !usuarioCorreo || !usuarioContrasena || !usuarioFechaNacimiento || !usuarioDireccion || !usuarioSexo) {
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarUsuario.usuarioNombre = usuarioNombre;
-                    buscarUsuario.usuarioTelefono = usuarioTelefono;
-                    buscarUsuario.usuarioCorreo = usuarioCorreo;
-                    buscarUsuario.usuarioContrasena = usuarioContrasena;
-                    buscarUsuario.usuarioAdmin = usuarioAdmin;
-                    buscarUsuario.usuarioFechaNacimiento = usuarioFechaNacimiento;
-                    buscarUsuario.usuarioDireccion = usuarioDireccion;
-                    buscarUsuario.usuarioSexo = usuarioSexo;
-                    await buscarUsuario.save();
+                    buscarUsuario.usuarioNombre = usuarioNombre
+                    buscarUsuario.usuarioTelefono = usuarioTelefono
+                    buscarUsuario.usuarioCorreo = usuarioCorreo
+                    buscarUsuario.usuarioContrasena = usuarioContrasena
+                    buscarUsuario.usuarioAdmin = usuarioAdmin
+                    buscarUsuario.usuarioFechaNacimiento = usuarioFechaNacimiento
+                    buscarUsuario.usuarioDireccion = usuarioDireccion
+                    buscarUsuario.usuarioSexo = usuarioSexo
+                    await buscarUsuario.save()
                     msj("Registro actualizado", 200, [], res)
                 }
             } else {
@@ -136,15 +136,15 @@ exports.Actualizar = async (req, res) => {
                     if (!usuarioNombre || !usuarioTelefono || !usuarioCorreo || !usuarioContrasena || !usuarioFechaNacimiento || !usuarioDireccion || !usuarioSexo) {
                         msj("Debe enviar los datos completos", 200, [], res)
                     } else {
-                        buscarUsuario.usuarioNombre = usuarioNombre;
-                        buscarUsuario.usuarioTelefono = usuarioTelefono;
-                        buscarUsuario.usuarioCorreo = usuarioCorreo;
-                        buscarUsuario.usuarioContrasena = usuarioContrasena;
-                        buscarUsuario.usuarioAdmin = usuarioAdmin;
-                        buscarUsuario.usuarioFechaNacimiento = usuarioFechaNacimiento;
-                        buscarUsuario.usuarioDireccion = usuarioDireccion;
-                        buscarUsuario.usuarioSexo = usuarioSexo;
-                        await buscarUsuario.save();
+                        buscarUsuario.usuarioNombre = usuarioNombre
+                        buscarUsuario.usuarioTelefono = usuarioTelefono
+                        buscarUsuario.usuarioCorreo = usuarioCorreo
+                        buscarUsuario.usuarioContrasena = usuarioContrasena
+                        buscarUsuario.usuarioAdmin = usuarioAdmin
+                        buscarUsuario.usuarioFechaNacimiento = usuarioFechaNacimiento
+                        buscarUsuario.usuarioDireccion = usuarioDireccion
+                        buscarUsuario.usuarioSexo = usuarioSexo
+                        await buscarUsuario.save()
                         msj("Registro actualizado", 200, [], res)
                     }
                 } else {
@@ -153,4 +153,4 @@ exports.Actualizar = async (req, res) => {
             }
         }
     }
-};
+}

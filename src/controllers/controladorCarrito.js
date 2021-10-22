@@ -1,12 +1,12 @@
-const Carrito = require('../models/modeloCarrito');
-const msj = require('../components/mensaje');
+const Carrito = require('../models/modeloCarrito')
+const msj = require('../components/mensaje')
 exports.listarCarritos = async (req, res) => {
     const {
         validationResult
-    } = require('express-validator');
-    const usu = await Carrito.findAll();
+    } = require('express-validator')
+    const usu = await Carrito.findAll()
     msj("Peticion procesada correctamente", 200, usu, res)
-};
+}
 
 exports.Guardar = async (req, res) => {
     const validacion = validationResult(req)
@@ -16,7 +16,7 @@ exports.Guardar = async (req, res) => {
         const {
             carritoEstado,
             usuarioId
-        } = req.body;
+        } = req.body
         if (!carritoEstado || !usuarioId) {
             msj("Debe enviar los datos completos", 200, [], res)
         } else {
@@ -27,16 +27,16 @@ exports.Guardar = async (req, res) => {
                 msj("Registro almacenado correctamente", 200, dato, res)
             }).catch((error) => {
                 msj("Error al guardar los datos", 200, error, res)
-            });
+            })
         }
     }
 
-};
+}
 
 exports.EliminarQuery = async (req, res) => {
     const {
         carritoId
-    } = req.query;
+    } = req.query
     if (!carritoId) {
         msj("Debe enviar el Id del Carrito", 200, [], res)
     } else {
@@ -44,7 +44,7 @@ exports.EliminarQuery = async (req, res) => {
             where: {
                 carritoId: carritoId,
             }
-        });
+        })
         if (!buscarCarrito) {
             msj("El Carrito no existe", 200, [], res)
         } else {
@@ -57,10 +57,10 @@ exports.EliminarQuery = async (req, res) => {
             }).catch((error) => {
                 msj("El registro no fue eliminado, porque hay un error en el servidor", 200, error, res)
 
-            });
+            })
         }
     }
-};
+}
 
 exports.ActualizarQuery = async (req, res) => {
     const validacion = validationResult(req)
@@ -69,12 +69,12 @@ exports.ActualizarQuery = async (req, res) => {
     } else {
         const {
             carritoId
-        } = req.query;
+        } = req.query
         const {
             carritoActualizadoEl,
             carritoEstado,
             usuarioId
-        } = req.body;
+        } = req.body
 
         if (!carritoId) {
             msj("Debe enviar el Id del Carrito", 200, [], res)
@@ -83,9 +83,9 @@ exports.ActualizarQuery = async (req, res) => {
                 where: {
                     carritoId: carritoId,
                 }
-            });
+            })
             if (!buscarCarrito) {
-                res.send("El Carrito no existe");
+                res.send("El Carrito no existe")
 
             } else {
 
@@ -93,13 +93,13 @@ exports.ActualizarQuery = async (req, res) => {
                     msj("Debe enviar los datos completos", 200, [], res)
 
                 } else {
-                    buscarCarrito.carritoActualizadoEl = carritoActualizadoEl;
-                    buscarCarrito.carritoEstado = carritoEstado;
+                    buscarCarrito.carritoActualizadoEl = carritoActualizadoEl
+                    buscarCarrito.carritoEstado = carritoEstado
                     buscarCarrito.usuarioId = usuarioId
-                    await buscarCarrito.save();
+                    await buscarCarrito.save()
                     msj("Registro actualizado", 200, [], res)
                 }
             }
         }
     }
-};
+}

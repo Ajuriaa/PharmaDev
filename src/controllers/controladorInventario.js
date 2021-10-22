@@ -1,12 +1,12 @@
-const Inventario = require('../models/modeloInventario');
-const msj = require('../components/mensaje');
+const Inventario = require('../models/modeloInventario')
+const msj = require('../components/mensaje')
 const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 exports.listarInventarios = async (req, res) => {
-    const usu = await Inventario.findAll();
+    const usu = await Inventario.findAll()
     msj("Peticion procesada correctamente", 200, [], res)
-};
+}
 
 exports.Guardar = async (req, res) => {
     const validacion = validationResult(req)
@@ -17,7 +17,7 @@ exports.Guardar = async (req, res) => {
             inventarioExistencia,
             inventarioFechaCaducidad,
             productoId
-        } = req.body;
+        } = req.body
         if (!inventarioExistencia || !inventarioFechaCaducidad || !productoId) {
             msj("Debe enviar los datos completos", 200, [], res)
         } else {
@@ -26,29 +26,29 @@ exports.Guardar = async (req, res) => {
                 inventarioFechaCaducidad: inventarioFechaCaducidad,
                 productoId: productoId
             }).then((dato) => {
-                console.log(dato);
+                console.log(dato)
                 msj("Registro almacenado correctamente", 200, [], res)
             }).catch((error) => {
-                console.log(error);
-                res.send("Error al guardar los datos");
-            });
+                console.log(error)
+                res.send("Error al guardar los datos")
+            })
         }
     }
-};
+}
 
 exports.EliminarQuery = async (req, res) => {
     const {
         inventarioId
-    } = req.query;
+    } = req.query
     if (!inventarioId) {
-        res.send("Debe enviar el Id del Inventario");
+        res.send("Debe enviar el Id del Inventario")
         msj("Debe enviar el Id del Inventario", 200, [], res)
     } else {
         const buscarInventario = await Inventario.findOne({
             where: {
                 inventarioId: inventarioId,
             }
-        });
+        })
         if (!buscarInventario) {
             msj("El Inventario no existe", 200, [], res)
         } else {
@@ -57,15 +57,15 @@ exports.EliminarQuery = async (req, res) => {
                     inventarioId: inventarioId,
                 }
             }).then((data) => {
-                console.log(data);
+                console.log(data)
                 msj("El registro ha sido  eliminado", 200, [], res)
             }).catch((error) => {
-                console.log(error);
+                console.log(error)
                 msj("El registro no fue eliminado, porque hay un error en el servidor", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.ActualizarQuery = async (req, res) => {
     const validacion = validationResult(req)
@@ -74,38 +74,38 @@ exports.ActualizarQuery = async (req, res) => {
     } else {
         const {
             inventarioId
-        } = req.query;
+        } = req.query
         const {
             inventarioExistencia,
             inventarioFechaCaducidad,
             productoId
-        } = req.body;
+        } = req.body
 
         if (!inventarioId) {
-            res.send("Debe enviar el Id del Inventario");
+            res.send("Debe enviar el Id del Inventario")
             msj("Debe enviar el Id del Inventarip", 200, [], res)
         } else {
             var buscarInventario = await Inventario.findOne({
                 where: {
                     inventarioId: inventarioId,
                 }
-            });
+            })
             if (!buscarInventario) {
                 msj("Debe enviar el Id del Carrito", 200, [], res)
             } else {
 
                 if (!inventarioExistencia || !inventarioFechaCaducidad || !productoId) {
-                    res.send("Debe enviar los datos completos");
+                    res.send("Debe enviar los datos completos")
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarInventario.inventarioExistencia = inventarioExistencia;
-                    buscarInventario.inventarioFechaCaducidad = inventarioFechaCaducidad;
+                    buscarInventario.inventarioExistencia = inventarioExistencia
+                    buscarInventario.inventarioFechaCaducidad = inventarioFechaCaducidad
                     buscarInventario.productoId = productoId
-                    await buscarInventario.save();
-                    console.log(buscarInventario);
+                    await buscarInventario.save()
+                    console.log(buscarInventario)
                     msj("Debe enviar el Id del Carrito", 200, [], res)
                 }
             }
         }
     }
-};
+}

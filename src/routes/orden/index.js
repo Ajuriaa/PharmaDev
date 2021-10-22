@@ -1,11 +1,11 @@
 const {
     Router
-} = require('express');
-const router = Router();
+} = require('express')
+const router = Router()
 const {
     body
-} = require('express-validator');
-const controladoOrdenes = require('../../controllers/controladorOrdenes');
+} = require('express-validator')
+const controladoOrdenes = require('../../controllers/controladorOrdenes')
 
 router.get('/',
     body('usuarioId').isLength({
@@ -27,9 +27,9 @@ router.get('/',
     body('ordenTotal')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en Total'),
-    controladoOrdenes.listarOrdenes);
-router.post('/', controladoOrdenes.Guardar);
-router.delete('/', controladoOrdenes.Eliminar);
+    controladoOrdenes.listarOrdenes)
+router.post('/', controladoOrdenes.Guardar)
+router.delete('/', controladoOrdenes.Eliminar)
 router.put('/',
     body('usuarioId').isLength({
         min: 13,
@@ -50,5 +50,5 @@ router.put('/',
     body('ordenTotal')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en Total'),
-    controladoOrdenes.Actualizar);
-module.exports = router;
+    controladoOrdenes.Actualizar)
+module.exports = router

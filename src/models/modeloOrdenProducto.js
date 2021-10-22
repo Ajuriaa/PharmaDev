@@ -1,5 +1,5 @@
-const sequelize = require('sequelize');
-const db = require('../config/db');
+const sequelize = require('sequelize')
+const db = require('../config/db')
 const OrdenProducto = db.define(
     "OrdenProducto",
     {
@@ -27,5 +27,5 @@ const OrdenProducto = db.define(
         modelName: "OrdenProducto",
         timestamps: false,
     }
-);
-module.exports = OrdenProducto;
+)
+module.exports = OrdenProducto

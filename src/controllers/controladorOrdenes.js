@@ -1,13 +1,13 @@
-const Orden = require('../models/modeloOrden');
-const msj = require('../components/mensaje');
+const Orden = require('../models/modeloOrden')
+const msj = require('../components/mensaje')
 const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 
 exports.listarOrdenes = async (req, res) => {
-    const usu = await Orden.findAll();
+    const usu = await Orden.findAll()
     msj("Peticion procesada correctamente", 200, usu, res)
-};
+}
 
 exports.Guardar = async (req, res) => {
     const validacion = validationResult(req)
@@ -21,7 +21,7 @@ exports.Guardar = async (req, res) => {
             ordenDescuento,
             ordenImpuestos,
             ordenTotal
-        } = req.body;
+        } = req.body
         if (!usuarioId || !ordenEstado || !ordenSubtotal || !ordenDescuento || !ordenImpuestos || !ordenTotal) {
             msj("Debe enviar los datos completos", 200, [], res)
         } else {
@@ -36,15 +36,15 @@ exports.Guardar = async (req, res) => {
                 msj("Registro almacenado correctamente", 200, dato, res)
             }).catch((error) => {
                 msj("Error al guardar los datos", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.Eliminar = async (req, res) => {
     const {
         ordenId
-    } = req.body;
+    } = req.body
     if (!ordenId) {
         msj("Debe enviar el identificador de la Orden", 200, [], res)
     } else {
@@ -52,7 +52,7 @@ exports.Eliminar = async (req, res) => {
             where: {
                 ordenId: ordenId,
             }
-        });
+        })
         if (!buscarOrden) {
             msj("La Orden no existe", 200, [], res)
         } else {
@@ -64,10 +64,10 @@ exports.Eliminar = async (req, res) => {
                 msj("El registro ha sido eliminado", 200, data, res)
             }).catch((error) => {
                 msj("El registro no fue eliminado, porque hay un eror en el servidor", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.Actualizar = async (req, res) => {
     const validacion = validationResult(req)
@@ -82,7 +82,7 @@ exports.Actualizar = async (req, res) => {
             ordenDescuento,
             ordenImpuestos,
             ordenTotal
-        } = req.body;
+        } = req.body
 
         if (!ordenId) {
             msj("Debe enviar el numero de identidad del Orden", 200, [], res)
@@ -91,7 +91,7 @@ exports.Actualizar = async (req, res) => {
                 where: {
                     ordenId: ordenId,
                 }
-            });
+            })
             if (!buscarOrden) {
                 msj("La Orden no existe", 200, [], res)
             } else {
@@ -99,16 +99,16 @@ exports.Actualizar = async (req, res) => {
                 if (!usuarioId || !ordenEstado || !ordenSubtotal || !ordenDescuento || !ordenImpuestos || !ordenTotal) {
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarOrden.usuarioId = usuarioId;
-                    buscarOrden.ordenEstado = ordenEstado;
-                    buscarOrden.ordenSubtotal = ordenSubtotal;
-                    buscarOrden.ordenDescuento = ordenDescuento;
-                    buscarOrden.ordenImpuestos = ordenImpuestos;
-                    buscarOrden.ordenTotal = ordenTotal;
-                    await buscarOrden.save();
+                    buscarOrden.usuarioId = usuarioId
+                    buscarOrden.ordenEstado = ordenEstado
+                    buscarOrden.ordenSubtotal = ordenSubtotal
+                    buscarOrden.ordenDescuento = ordenDescuento
+                    buscarOrden.ordenImpuestos = ordenImpuestos
+                    buscarOrden.ordenTotal = ordenTotal
+                    await buscarOrden.save()
                     msj("Registro actualizado", 200, [], res)
                 }
             }
         }
     }
-};
+}

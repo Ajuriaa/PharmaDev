@@ -1,13 +1,14 @@
-const { Router } = require('express');
-const router = Router();
+const { Router } = require('express')
+const router = Router()
 router.get('/', (req, res) => {
     const api = {
-        titulo: "API Movil II",
-        autor: "Carlos Flores"
+        titulo: "PharmaDev API",
+        autores: {
+            "Autor1":"Maryury Lissbeth Peralta Gutiérrez",
+            "Autor2":"José Alejandro Ajuria Aguilar",
+            "Autor3":"Lener Jersan Quiroz Herrera",
+        }
     }
-    res.json(api);
-});
-//CONFIGURACION "Esta es la ruta de configuracion"
-//EMPLEADO (ID, NOMBRE, APELLIDO, CARGO, SUELDO)
-//PRODUCTO (ID, NOMBRE, DESCRIPCION, PRECIO, COSTO, EXISTENCIA)
-module.exports = router;
+    res.json(api)
+})
+module.exports = router
