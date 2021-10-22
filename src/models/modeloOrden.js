@@ -35,7 +35,7 @@ const Orden = db.define(
         },
         ordenCreadoEl: {
             type: sequelize.DATE,
-            allowNull: false,
+            defaultValue: sequelize.NOW
         },
         ordenActualizadoEl: {
             type: sequelize.DATE,
@@ -45,6 +45,11 @@ const Orden = db.define(
         tableName: "Orden",
         modelName: "Orden",
         timestamps: false,
+        hooks: {
+            beforeUpdate(Orden){
+                Orden.ordenActualizadoEl = sequelize.NOW
+            }
+        }
     }
 );
 module.exports = Orden;
