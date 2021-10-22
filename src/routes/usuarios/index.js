@@ -1,6 +1,10 @@
-const {Router} = require('express');
+const {
+    Router
+} = require('express');
 const controladorUsuarios = require('../../controllers/controladorUsuarios');
-const {body} = require('express-validator');
+const {
+    body
+} = require('express-validator');
 const router = Router();
 router.get('/', controladorUsuarios.listarUsuarios);
 router.post('/',
@@ -9,7 +13,7 @@ router.post('/',
         max: 13
     })
     .withMessage('El numero de identidad debe contener 13 numeros')
-    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
+    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
     body('usuarioCorreo').isEmail()
     .withMessage('Debe ingresar un correo electronico valido'),
@@ -28,21 +32,19 @@ router.post('/',
         min: 8
     })
     .withMessage('El numero de telefono debe contener 8 caracteres')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/)
+    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('El numero de telefono solo debe contener numeros'),
-    body('usuarioFechaNacimiento').isEmpty()
-    .withMessage('Debe ingresar su fecha de nacimiento'),
     controladorUsuarios.Guardar);
 
 
-router.delete('/', controladorUsuarios.EliminarQuery);
+router.delete('/', controladorUsuarios.Eliminar);
 router.put('/',
     body('usuarioId').isLength({
         min: 13,
         max: 13
     })
     .withMessage('El numero de identidad debe contener 13 numeros')
-    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
+    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
     body('usuarioCorreo').isEmail()
     .withMessage('Debe ingresar un correo electronico valido'),
@@ -61,7 +63,7 @@ router.put('/',
         min: 8
     })
     .withMessage('El numero de telefono debe contener 8 caracteres')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/)
+    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('El numero de telefono solo debe contener numeros'),
-    controladorUsuarios.ActualizarQuery);
+    controladorUsuarios.Actualizar);
 module.exports = router;
