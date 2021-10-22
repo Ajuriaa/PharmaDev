@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+const sequelize = require('sequelize')
 const db = require('../config/db.js')
 const CarritoProducto = db.define(
     "CarritoProducto",{
@@ -35,5 +35,5 @@ const CarritoProducto = db.define(
         tableName: "CarritoProducto",
         timestamps: false,
     }
-);
-module.exports = CarritoProducto;
+)
+module.exports = CarritoProducto

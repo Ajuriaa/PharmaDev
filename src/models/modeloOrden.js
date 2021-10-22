@@ -1,5 +1,5 @@
-const sequelize = require('sequelize');
-const db = require('../config/db');
+const sequelize = require('sequelize')
+const db = require('../config/db')
 const Orden = db.define(
     "Orden",
     {
@@ -51,5 +51,5 @@ const Orden = db.define(
             }
         }
     }
-);
-module.exports = Orden;
+)
+module.exports = Orden

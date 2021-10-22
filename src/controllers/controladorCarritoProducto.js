@@ -1,12 +1,12 @@
-const CarritoProducto = require('../models/modeloCarritoProducto');
-const msj = require('../components/mensaje');
+const CarritoProducto = require('../models/modeloCarritoProducto')
+const msj = require('../components/mensaje')
 const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 exports.listarCarritoProductos = async (req, res) => {
-    const usu = await CarritoProducto.findAll();
+    const usu = await CarritoProducto.findAll()
     msj("peticion procesada correctamente", 200, usu, res)
-};
+}
 
 exports.Guardar = async (req, res) => {
     const validacion = validationResult(req)
@@ -17,7 +17,7 @@ exports.Guardar = async (req, res) => {
             productoId,
             carritoId,
             carritoProductoCantidad
-        } = req.body;
+        } = req.body
         if (!productoId || !carritoId || !carritoProductoCantidad) {
             msj("Debe enviar los datos completos", 200, [], res)
         } else {
@@ -27,20 +27,20 @@ exports.Guardar = async (req, res) => {
                 carritoProductoCantidad: carritoProductoCantidad,
 
             }).then((dato) => {
-                console.log(dato);
+                console.log(dato)
                 msj("Registro almacenado correctamente", 200, dato, res)
             }).catch((error) => {
-                console.log(error);
+                console.log(error)
                 msj("Error al guardar los datos", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.EliminarQuery = async (req, res) => {
     const {
         carritoProductoId
-    } = req.query;
+    } = req.query
     if (!carritoProductoId) {
         msj("Debe enviar el Id del CarritoProducto", 200, [], res)
     } else {
@@ -48,7 +48,7 @@ exports.EliminarQuery = async (req, res) => {
             where: {
                 carritoProductoId: carritoProductoId,
             }
-        });
+        })
         if (!buscarCarritoProducto) {
             msj("El carritoProducto no existe", 200, [], res)
         } else {
@@ -57,15 +57,15 @@ exports.EliminarQuery = async (req, res) => {
                     carritoProductoId: carritoProductoId,
                 }
             }).then((data) => {
-                console.log(data);
+                console.log(data)
                 msj("El registro ha sido  eliminado", 200, [], data)
             }).catch((error) => {
-                console.log(error);
+                console.log(error)
                 msj("El registro no fue eliminado, porque hay un error en el servidor", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.ActualizarQuery = async (req, res) => {
     const validacion = validationResult(req)
@@ -74,14 +74,14 @@ exports.ActualizarQuery = async (req, res) => {
     } else {
         const {
             carritoProductoId
-        } = req.query;
+        } = req.query
         const {
             productoId,
             carritoId,
             carritoProductoFechaActualizado,
             carritoProductoCantidad,
             carritoProductoActivo
-        } = req.body;
+        } = req.body
 
         if (!carritoProductoId) {
             msj("Debe enviar el Id del CarritoProducto", 200, [], res)
@@ -90,7 +90,7 @@ exports.ActualizarQuery = async (req, res) => {
                 where: {
                     carritoProductoId: carritoProductoId,
                 }
-            });
+            })
             if (!buscarCarritoProductoId) {
                 msj("El CarritoProducto no existe", 200, [], res)
             } else {
@@ -98,16 +98,16 @@ exports.ActualizarQuery = async (req, res) => {
                 if (!productoId || !carritoId || !carritoProductoFechaActualizado || !carritoProductoCantidad || !carritoProductoActivo) {
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarCarritoProducto.productoId = productoId;
+                    buscarCarritoProducto.productoId = productoId
                     buscarCarritoProducto.carritoId = carritoId,
                         buscarCarritoProducto.carritoProductoFechaActualizado = carritoProductoFechaActualizado,
                         buscarCarritoProducto.carritoProductoCantidad = carritoProductoCantidad,
                         buscarCarritoProducto.carritoProductoActivo = carritoProductoActivo,
-                        await buscarCarritoProducto.save();
-                    console.log(buscarCarritoProducto);
+                        await buscarCarritoProducto.save()
+                    console.log(buscarCarritoProducto)
                     msj("Registro actualizado", 200, [], res)
                 }
             }
         }
     }
-};
+}

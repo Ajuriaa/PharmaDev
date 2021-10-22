@@ -1,6 +1,6 @@
-const sequelize = require('sequelize');
-const db = require('../config/db');
-const bcrypt = require('bcrypt');
+const sequelize = require('sequelize')
+const db = require('../config/db')
+const bcrypt = require('bcrypt')
 const Usuario = db.define(
     "Usuario",
     {
@@ -85,8 +85,8 @@ const Usuario = db.define(
         }
 
     }
-);
+)
 Usuario.prototype.verificarContrasena = (con, com) =>{
     return bcrypt.compareSync(con, com)
 }
-module.exports = Usuario;
+module.exports = Usuario

@@ -1,13 +1,13 @@
-const Laboratorio = require('../models/modeloLaboratorio');
-const msj = require('../components/mensaje');
+const Laboratorio = require('../models/modeloLaboratorio')
+const msj = require('../components/mensaje')
 const {
     validationResult
-} = require('express-validator');
+} = require('express-validator')
 
 exports.listarLaboratorios = async (req, res) => {
-    const usu = await Laboratorio.findAll();
+    const usu = await Laboratorio.findAll()
     msj("Peticion procesada correctamente", 200, usu, res)
-};
+}
 
 exports.Guardar = async (req, res) => {
     const validacion = validationResult(req)
@@ -17,9 +17,9 @@ exports.Guardar = async (req, res) => {
         const {
             laboratorioNombre,
             laboratorioDescripcion
-        } = req.body;
+        } = req.body
         if (!laboratorioNombre || !laboratorioDescripcion) {
-            res.send("Debe enviar los datos completos");
+            res.send("Debe enviar los datos completos")
         } else {
             const nuevoLaboratorio = await Laboratorio.create({
                 laboratorioNombre: laboratorioNombre,
@@ -29,23 +29,23 @@ exports.Guardar = async (req, res) => {
 
             }).catch((error) => {
                 msj("Error al guardar los datos", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.Eliminar = async (req, res) => {
     const {
         laboratorioId
-    } = req.body;
+    } = req.body
     if (!laboratorioId) {
-        res.send("Debe enviar el identificador del Laboratorio");
+        res.send("Debe enviar el identificador del Laboratorio")
     } else {
         const buscarLaboratorio = await Laboratorio.findOne({
             where: {
                 laboratorioId: laboratorioId,
             }
-        });
+        })
         if (!buscarLaboratorio) {
             msj("El Laboratorio no existe", 200, [], res)
         } else {
@@ -57,10 +57,10 @@ exports.Eliminar = async (req, res) => {
                 msj("El registro ha sido eliminado", 200, data, res)
             }).catch((error) => {
                 msj("El registro no fue eliminado, porque hay un eror en el servidor", 200, error, res)
-            });
+            })
         }
     }
-};
+}
 
 exports.Actualizar = async (req, res) => {
     const validacion = validationResult(req)
@@ -71,7 +71,7 @@ exports.Actualizar = async (req, res) => {
             laboratorioId,
             laboratorioNombre,
             laboratorioDescripcion
-        } = req.body;
+        } = req.body
         if (!laboratorioId) {
             msj("Debe enviar el identificador del Laboratorio", 200, [], res)
         } else {
@@ -79,19 +79,19 @@ exports.Actualizar = async (req, res) => {
                 where: {
                     laboratorioId: laboratorioId,
                 }
-            });
+            })
             if (!buscarLaboratorio) {
                 msj("El Laboratorio no existe", 200, usu, res)
             } else {
                 if (!laboratorioNombre || !laboratorioDescripcion) {
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarLaboratorio.laboratorioNombre = laboratorioNombre;
-                    buscarLaboratorio.laboratorioDescripcion = laboratorioDescripcion;
-                    await buscarLaboratorio.save();
+                    buscarLaboratorio.laboratorioNombre = laboratorioNombre
+                    buscarLaboratorio.laboratorioDescripcion = laboratorioDescripcion
+                    await buscarLaboratorio.save()
                     msj("Registro actualizado", 200, [], res)
                 }
             }
         }
     }
-};
+}

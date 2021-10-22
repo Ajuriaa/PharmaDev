@@ -1,12 +1,12 @@
 const {
     Router
-} = require('express');
-const router = Router();
+} = require('express')
+const router = Router()
 const {
     body
-} = require('express-validator');
-const controladorInventario = require('../../controllers/controladorInventario');
-router.get('/', controladorInventario.listarInventarios);
+} = require('express-validator')
+const controladorInventario = require('../../controllers/controladorInventario')
+router.get('/', controladorInventario.listarInventarios)
 router.post('/',
     body(
         "inventarioExistencia"
@@ -28,8 +28,8 @@ router.post('/',
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Es el identificar de producto debe de ser numerico'),
 
-    controladorInventario.Guardar);
-router.delete('/', controladorInventario.EliminarQuery);
+    controladorInventario.Guardar)
+router.delete('/', controladorInventario.EliminarQuery)
 router.put('/',
     body(
         "inventarioExistencia"
@@ -53,5 +53,5 @@ router.put('/',
 
 
 
-    controladorInventario.ActualizarQuery);
-module.exports = router;
+    controladorInventario.ActualizarQuery)
+module.exports = router

@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+const sequelize = require('sequelize')
 const db = new sequelize(
     'pharmadev',
     'root',
@@ -8,5 +8,5 @@ const db = new sequelize(
         dialect: 'mysql',
         port: '3306',
     }
-);
-module.exports= db;
+)
+module.exports= db
