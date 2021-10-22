@@ -21,5 +21,5 @@ router.post('/',
     .withMessage('La contraseña debe contener mayusculas minusculas y un numero'),
     controladorUsuarios.Guardar);
 router.delete('/', controladorUsuarios.EliminarQuery);
-// router.put('/', controladorUsuarios.ActualizarQuery);
+router.put('/', controladorUsuarios.ActualizarQuery);
 module.exports = router;

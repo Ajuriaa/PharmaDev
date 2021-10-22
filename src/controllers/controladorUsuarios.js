@@ -115,15 +115,13 @@ exports.ActualizarQuery = async (req, res) => {
         usuarioCorreo,
         usuarioContrasena,
         usuarioAdmin,
-        usuarioRegistradoEl,
         usuarioFechaNacimiento,
         usuarioDireccion,
-        usuarioSexo,
-        usuarioUltimoLog
+        usuarioSexo
     } = req.body;
 
     if (!usuarioId) {
-        res.send("Debe enviar el numero de identidad del usuario");
+        msj("Debe enviar el numero de identidad del usuario", 200, [], res)
     } else {
         var buscarUsuario = await Usuario.findOne({
             where: {
@@ -131,11 +129,15 @@ exports.ActualizarQuery = async (req, res) => {
             }
         });
         if (!buscarUsuario) {
-            res.send("El usuario no existe");
+            // res.send("El usuario no existe");
+        msj("El usuario no existe", 200, [], res)
+
         } else {
 
-            if (!usuarioNombre || !usuarioTelefono || !usuarioCorreo || !usuarioContrasena || !usuarioAdmin || !usuarioFechaNacimiento || !usuarioDireccion || !usuarioSexo || !usuarioUltimoLog) {
-                res.send("Debe enviar los datos completos");
+            if (!usuarioNombre || !usuarioTelefono || !usuarioCorreo || !usuarioContrasena || !usuarioFechaNacimiento || !usuarioDireccion || !usuarioSexo) {
+                // res.send("Debe enviar los datos completos");
+                msj("Debe enviar los datos completos", 200, [], res)
+
             } else {
                 buscarUsuario.usuarioNombre = usuarioNombre;
                 buscarUsuario.usuarioTelefono = usuarioTelefono;
@@ -145,10 +147,10 @@ exports.ActualizarQuery = async (req, res) => {
                 buscarUsuario.usuarioFechaNacimiento = usuarioFechaNacimiento;
                 buscarUsuario.usuarioDireccion = usuarioDireccion;
                 buscarUsuario.usuarioSexo = usuarioSexo;
-                buscarUsuario.usuarioUltimoLog = usuarioUltimoLog;
                 await buscarUsuario.save();
-                console.log(buscarUsuario);
-                res.send("Registro actualizado");
+                // console.log(buscarUsuario);
+                msj("Registro actualizado", 200, [], res)
+
             }
         }
     }
