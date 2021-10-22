@@ -29,28 +29,41 @@ exports.Guardar = async (req, res) => {
             usuarioDireccion,
             usuarioSexo
         } = req.body;
+        const BuscarUsuario = await Usuario.findOne({
+            where: {
+                [Op.or]:{
+                    usuarioCorreo: usuarioCorreo,
+                    usuarioId: usuarioId
+                }
+            }
+        })
 
-        const nuevoUsuario = await Usuario.create({
-            usuarioId: usuarioId,
-            usuarioNombre: usuarioNombre,
-            usuarioTelefono: usuarioTelefono,
-            usuarioCorreo: usuarioCorreo,
-            usuarioContrasena: usuarioContrasena,
-            usuarioAdmin: usuarioAdmin,
-            usuarioFechaNacimiento: usuarioFechaNacimiento,
-            usuarioDireccion: usuarioDireccion,
-            usuarioSexo: usuarioSexo
-        }).then((dato) => {
-            // console.log(dato);
-            // res.send("Registro almacenado correctamente");
-            msj("Registro almacenado correctamente", 200, dato, res)
+        if (!BuscarUsuario) {
+            const nuevoUsuario = await Usuario.create({
+                usuarioId: usuarioId,
+                usuarioNombre: usuarioNombre,
+                usuarioTelefono: usuarioTelefono,
+                usuarioCorreo: usuarioCorreo,
+                usuarioContrasena: usuarioContrasena,
+                usuarioAdmin: usuarioAdmin,
+                usuarioFechaNacimiento: usuarioFechaNacimiento,
+                usuarioDireccion: usuarioDireccion,
+                usuarioSexo: usuarioSexo
+            }).then((dato) => {
+                // console.log(dato);
+                // res.send("Registro almacenado correctamente");
+                msj("Registro almacenado correctamente", 200, dato, res)
 
-        }).catch((error) => {
-            // console.log(error);
-            // res.send("Error al guardar los datos");
-            msj("Error al guardar los datos", 200, error, res)
+            }).catch((error) => {
+                // console.log(error);
+                // res.send("Error al guardar los datos");
+                msj("Error al guardar los datos", 200, error, res)
 
-        });
+            });
+        } else {
+            msj("El correo electronico o el numero de identidad ya esta en uso", 200, [], res)
+        }
+
 
         // msj("Peticion procesada correctamente", 200, [], res)
     }
@@ -61,7 +74,8 @@ exports.EliminarQuery = async (req, res) => {
         usuarioId
     } = req.query;
     if (!usuarioId) {
-        res.send("Debe enviar el numero de identidad del usuario");
+        // res.send("Debe enviar el numero de identidad del usuario");
+        msj("Debe enviar el numero de identidad del usuario", 200, [], res)
     } else {
         const buscarUsuario = await Usuario.findOne({
             where: {
@@ -69,18 +83,23 @@ exports.EliminarQuery = async (req, res) => {
             }
         });
         if (!buscarUsuario) {
-            res.send("El usuario no existe");
+            // res.send("El usuario no existe");
+            msj("El usuario no existe", 200, [], res)
         } else {
             await Usuario.destroy({
                 where: {
                     usuarioId: usuarioId,
                 }
             }).then((data) => {
-                console.log(data);
-                res.send("El registro ha sido eliminado");
+                // console.log(data);
+                // res.send("El registro ha sido eliminado");
+                msj("El registro ha sido eliminado", 200, [data], res)
+
             }).catch((error) => {
-                console.log(error);
-                res.send("El registro no fue eliminado, porque hay un eror en el servidor");
+                // console.log(error);
+                // res.send("El registro no fue eliminado, porque hay un eror en el servidor");
+                msj("El registro no fue eliminado, porque hay un eror en el servidor", 200, [error], res)
+
             });
         }
     }
