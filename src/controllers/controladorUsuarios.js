@@ -1,44 +1,58 @@
 const Usuario = require('../models/modeloUsuario');
+const msj = require('../components/mensaje');
+const {
+    validationResult
+} = require('express-validator');
+const {
+    Op
+} = require("sequelize");
 
 exports.listarUsuarios = async (req, res) => {
     const usu = await Usuario.findAll();
-    // console.log(usu);
-    res.json(usu);
+    msj("Peticion procesada correctamente", 200, usu, res)
 };
 
+
 exports.Guardar = async (req, res) => {
-    const {
-        usuarioId,
-        usuarioNombre,
-        usuarioTelefono,
-        usuarioCorreo,
-        usuarioContrasena,
-        usuarioAdmin,
-        usuarioRegistradoEl,
-        usuarioFechaNacimiento,
-        usuarioDireccion,
-        usuarioSexo
-    } = req.body;
-    if (!usuarioId || !usuarioNombre || !usuarioTelefono || !usuarioCorreo || !usuarioContrasena || !usuarioAdmin || !usuarioRegistradoEl || !usuarioFechaNacimiento || !usuarioDireccion || !usuarioSexo) {
-        res.send("Debe enviar los datos completos");
+    const validacion = validationResult(req)
+    if (!validacion.isEmpty()) {
+        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
     } else {
+        const {
+            usuarioId,
+            usuarioNombre,
+            usuarioTelefono,
+            usuarioCorreo,
+            usuarioContrasena,
+            usuarioAdmin,
+            usuarioFechaNacimiento,
+            usuarioDireccion,
+            usuarioSexo
+        } = req.body;
+
         const nuevoUsuario = await Usuario.create({
             usuarioId: usuarioId,
             usuarioNombre: usuarioNombre,
+            usuarioTelefono: usuarioTelefono,
             usuarioCorreo: usuarioCorreo,
             usuarioContrasena: usuarioContrasena,
             usuarioAdmin: usuarioAdmin,
-            usuarioRegistradoEl: usuarioRegistradoEl,
             usuarioFechaNacimiento: usuarioFechaNacimiento,
             usuarioDireccion: usuarioDireccion,
             usuarioSexo: usuarioSexo
         }).then((dato) => {
-            console.log(dato);
-            res.send("Registro almacenado correctamente");
+            // console.log(dato);
+            // res.send("Registro almacenado correctamente");
+            msj("Registro almacenado correctamente", 200, dato, res)
+
         }).catch((error) => {
-            console.log(error);
-            res.send("Error al guardar los datos");
+            // console.log(error);
+            // res.send("Error al guardar los datos");
+            msj("Error al guardar los datos", 200, error, res)
+
         });
+
+        // msj("Peticion procesada correctamente", 200, [], res)
     }
 };
 
