@@ -1,5 +1,9 @@
 const Carrito = require('../models/modeloCarrito')
 const msj = require('../components/mensaje')
+const {
+    validationResult
+} = require('express-validator')
+
 exports.listarCarritos = async (req, res) => {
     const {
         validationResult
@@ -71,9 +75,7 @@ exports.ActualizarQuery = async (req, res) => {
             carritoId
         } = req.query
         const {
-            carritoActualizadoEl,
             carritoEstado,
-            usuarioId
         } = req.body
 
         if (!carritoId) {
@@ -89,13 +91,11 @@ exports.ActualizarQuery = async (req, res) => {
 
             } else {
 
-                if (!usuarioId || !carritoActualizadoEl || !carritoEstado) {
+                if ( !carritoEstado) {
                     msj("Debe enviar los datos completos", 200, [], res)
 
                 } else {
-                    buscarCarrito.carritoActualizadoEl = carritoActualizadoEl
                     buscarCarrito.carritoEstado = carritoEstado
-                    buscarCarrito.usuarioId = usuarioId
                     await buscarCarrito.save()
                     msj("Registro actualizado", 200, [], res)
                 }

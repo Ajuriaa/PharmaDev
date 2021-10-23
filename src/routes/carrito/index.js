@@ -27,13 +27,11 @@ router.delete('/',
     controladorAutenticacion.validarAutenticado,
     controladorCarrito.EliminarQuery)
 router.put('/',
-    body('usuarioId').isLength({
-        min: 13,
-        max: 13
-    })
-    .withMessage('El numero de identidad debe contener 13 numeros')
-    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
-    .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
+body
+(
+    "carritoId"
+)
+.isEmpty().withMessage("Debe enviar el identificador de crrito"),
     controladorAutenticacion.validarAutenticado,
     controladorCarrito.ActualizarQuery)
 module.exports = router
