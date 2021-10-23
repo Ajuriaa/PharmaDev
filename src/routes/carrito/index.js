@@ -6,7 +6,11 @@ const {
     body
 } = require('express-validator')
 const controladorCarrito = require('../../controllers/controladorCarrito')
-router.get('/', controladorCarrito.listarCarritos)
+const controladorAutenticacion = require("../../controllers/controladorAutenticacion")
+
+router.get('/',
+    controladorAutenticacion.validarAutenticado,
+    controladorCarrito.listarCarritos)
 
 router.post('/',
     body('usuarioId').isLength({
@@ -16,9 +20,12 @@ router.post('/',
     .withMessage('El numero de identidad debe contener 13 numeros')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
+    controladorAutenticacion.validarAutenticado,
     controladorCarrito.Guardar)
 
-router.delete('/', controladorCarrito.EliminarQuery)
+router.delete('/',
+    controladorAutenticacion.validarAutenticado,
+    controladorCarrito.EliminarQuery)
 router.put('/',
     body('usuarioId').isLength({
         min: 13,
@@ -27,6 +34,6 @@ router.put('/',
     .withMessage('El numero de identidad debe contener 13 numeros')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
+    controladorAutenticacion.validarAutenticado,
     controladorCarrito.ActualizarQuery)
-
 module.exports = router
