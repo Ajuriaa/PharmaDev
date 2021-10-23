@@ -3,7 +3,9 @@ const controladorPresentacion = require('../../controllers/controladorPresentaci
 const controladorAutenticacion = require('../../controllers/controladorAutenticacion')
 const { body } = require('express-validator')
 const router = Router()
-router.get('/', controladorPresentacion.listarPresentaciones)
+router.get('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorPresentacion.listarPresentaciones)
 router.post('/',
     body('presentacionNombre').isLength({
         min: 3, max: 25
@@ -15,7 +17,9 @@ router.post('/',
     .withMessage('Inserte la descripcion del producto con mas de 5 caracteres y menos de 250'),
     controladorAutenticacion.validarAutenticado,
     controladorPresentacion.GuardarPresentacion)
-router.delete('/', controladorPresentacion.EliminarQueryPresentacion)
+router.delete('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorPresentacion.EliminarQueryPresentacion)
 router.put('/',
     body('presentacionNombre').isLength({
         min: 3, max: 25
