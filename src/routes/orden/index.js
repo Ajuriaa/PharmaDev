@@ -6,6 +6,7 @@ const {
     body
 } = require('express-validator')
 const controladoOrdenes = require('../../controllers/controladorOrdenes')
+const controladorAutenticacion = require("../../controllers/controladorAutenticacion")
 
 router.get('/',
     body('usuarioId').isLength({
@@ -27,9 +28,10 @@ router.get('/',
     body('ordenTotal')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en Total'),
+    controladorAutenticacion.validarAutenticado,
     controladoOrdenes.listarOrdenes)
-router.post('/', controladoOrdenes.Guardar)
-router.delete('/', controladoOrdenes.Eliminar)
+router.post('/', controladorAutenticacion.validarAutenticado, controladoOrdenes.Guardar)
+router.delete('/', controladorAutenticacion.validarAutenticado, controladoOrdenes.Eliminar)
 router.put('/',
     body('usuarioId').isLength({
         min: 13,
@@ -50,5 +52,6 @@ router.put('/',
     body('ordenTotal')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en Total'),
+    controladorAutenticacion.validarAutenticado,
     controladoOrdenes.Actualizar)
 module.exports = router
