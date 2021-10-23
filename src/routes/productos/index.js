@@ -3,7 +3,9 @@ const controladorProducto = require('../../controllers/controladorProducto')
 const controladorAutenticacion = require('../../controllers/controladorAutenticacion')
 const { body } = require('express-validator')
 const router = Router()
-router.get('/', controladorProducto.listarProductos)
+router.get('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorProducto.listarProductos)
 router.post('/',
     body('productoNombre').isLength({
         min: 3, max: 25
@@ -22,7 +24,9 @@ router.post('/',
     body('presentacionId').isInt().withMessage('Este campo no puede estar vacio'),
     controladorAutenticacion.validarAutenticado,
     controladorProducto.GuardarProducto)
-router.delete('/', controladorProducto.EliminarQueryProducto)
+router.delete('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorProducto.EliminarQueryProducto)
 router.put('/',
     body('productoNombre').isLength({
         min: 3, max: 25

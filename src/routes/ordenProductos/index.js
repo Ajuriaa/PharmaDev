@@ -3,7 +3,9 @@ const controladorOrdenProducto = require('../../controllers/controladorOrdenProd
 const controladorAutenticacion = require('../../controllers/controladorAutenticacion')
 const { body } = require('express-validator')
 const router = Router()
-router.get('/', controladorOrdenProducto.listarOrdenProducto)
+router.get('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorOrdenProducto.listarOrdenProducto)
 router.post('/',
     body('productoId').isInt().withMessage('Ingrese una id de producto valida'),
     body('ordenId').isInt().withMessage('Ingrese una id de orden valida'),
@@ -11,7 +13,9 @@ router.post('/',
     .matches('^[0-9]*$').withMessage('Este Campo debe ser un numero'),
     controladorAutenticacion.validarAutenticado,
     controladorOrdenProducto.GuardarOrdenProducto)
-router.delete('/', controladorOrdenProducto.EliminarQueryOrdenProducto)
+router.delete('/', 
+    controladorAutenticacion.validarAutenticado,
+    controladorOrdenProducto.EliminarQueryOrdenProducto)
 router.put('/',
     body('productoId').isInt().withMessage('Ingrese una id de producto valida'),
     body('ordenId').isInt().withMessage('Ingrese una id de orden valida'),
