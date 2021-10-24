@@ -19,7 +19,6 @@ router.post('/',
         min: 1
     })
     .withMessage('El valor del producto debe ser mayor que 0'),
-    body('productoFechaCreado').isEmpty().withMessage('Este campo no puede estar vacio'),
     body('laboratorioId').isInt().withMessage('Ingrese una id de laboratorio valida'),
     body('presentacionId').isInt().withMessage('Este campo no puede estar vacio'),
     controladorAutenticacion.validarAutenticado,

@@ -8,7 +8,7 @@ const Inventario = db.define(
             autoIncrement: true,
             allowNull: false
         },
-        inventarioExistencia:{
+        inventarioExistencias:{
             type: sequelize.FLOAT
         },
         inventarioFechaCaducidad:{

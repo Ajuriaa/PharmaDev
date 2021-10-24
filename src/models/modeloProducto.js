@@ -24,14 +24,15 @@ const Producto = db.define(
             defaultValue: sequelize.NOW
         },
         productoFechaPublicado:{
-            type: sequelize.DATE
+            type: sequelize.DATE,
+            defaultValue: sequelize.NOW
         },
         productoFechaEditado:{
             type: sequelize.DATE
         },
         productoActivo:{
             type: sequelize.BOOLEAN,
-            allowNull: false
+            defaultValue: true
         },
         laboratorioId:{
             type: sequelize.INTEGER,

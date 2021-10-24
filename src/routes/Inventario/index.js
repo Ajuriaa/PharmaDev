@@ -12,20 +12,21 @@ router.get('/',
     controladorInventario.listarInventarios)
 router.post('/',
     body(
-        "inventarioExistencia"
+        "inventarioExistencias"
     )
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en la existencia del inventario'),
     body(
         "inventarioFechaCaducidad"
     )
-    .isEmpty()
+    .isLength({
+        min:10,
+        max:10
+    })
     .withMessage('Debe ingresar la fecha de caducidad'),
     body(
         "productoId"
     )
-    .isEmpty()
-    .withMessage('Debe enviar el id del producto')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Es el identificar de producto debe de ser numerico'),
     controladorAutenticacion.validarAutenticado,
@@ -35,19 +36,18 @@ router.delete('/',
     controladorInventario.EliminarQuery)
 router.put('/',
     body(
-        "inventarioExistencia"
+        "inventarioExistencias"
     )
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en la existencia del inventario'),
     body(
-        "inventarioFechaCaducidad"
-    )
-    .isEmpty()
-    .withMessage('Debe ingresar la fecha de caducidad'),
-    body(
         "productoId"
     )
-    .isEmpty()
+    .isLength(
+        {
+            min:1
+        }
+    )
     .withMessage('Debe enviar el id del producto')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[0-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Es el identificar de producto debe de ser numerico'),

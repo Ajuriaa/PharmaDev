@@ -58,7 +58,7 @@ exports.EliminarQuery = async (req, res) => {
                 }
             }).then((data) => {
                 console.log(data)
-                msj("El registro ha sido  eliminado", 200, [], data)
+                msj("El registro ha sido  eliminado", 200, [], res)
             }).catch((error) => {
                 console.log(error)
                 msj("El registro no fue eliminado, porque hay un error en el servidor", 200, error, res)

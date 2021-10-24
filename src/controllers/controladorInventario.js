@@ -5,7 +5,7 @@ const {
 } = require('express-validator')
 exports.listarInventarios = async (req, res) => {
     const usu = await Inventario.findAll()
-    msj("Peticion procesada correctamente", 200, [], res)
+    msj("Peticion procesada correctamente", 200, usu, res)
 }
 
 exports.Guardar = async (req, res) => {
@@ -14,15 +14,15 @@ exports.Guardar = async (req, res) => {
         msj("Los datos ingresados no son validos", 200, validacion.array(), res)
     } else {
         const {
-            inventarioExistencia,
+            inventarioExistencias,
             inventarioFechaCaducidad,
             productoId
         } = req.body
-        if (!inventarioExistencia || !inventarioFechaCaducidad || !productoId) {
+        if (!inventarioExistencias || !inventarioFechaCaducidad || !productoId) {
             msj("Debe enviar los datos completos", 200, [], res)
         } else {
             const nuevoInventario = await Inventario.create({
-                inventarioExistencia: inventarioExistencia,
+                inventarioExistencias: inventarioExistencias,
                 inventarioFechaCaducidad: inventarioFechaCaducidad,
                 productoId: productoId
             }).then((dato) => {
@@ -76,14 +76,14 @@ exports.ActualizarQuery = async (req, res) => {
             inventarioId
         } = req.query
         const {
-            inventarioExistencia,
+            inventarioExistencias,
             inventarioFechaCaducidad,
             productoId
         } = req.body
 
         if (!inventarioId) {
             res.send("Debe enviar el Id del Inventario")
-            msj("Debe enviar el Id del Inventarip", 200, [], res)
+            msj("Debe enviar el Id del Inventario", 200, [], res)
         } else {
             var buscarInventario = await Inventario.findOne({
                 where: {
@@ -91,19 +91,19 @@ exports.ActualizarQuery = async (req, res) => {
                 }
             })
             if (!buscarInventario) {
-                msj("Debe enviar el Id del Carrito", 200, [], res)
+                msj("Debe enviar el Id del inventario", 200, [], res)
             } else {
 
-                if (!inventarioExistencia || !inventarioFechaCaducidad || !productoId) {
+                if (!inventarioExistencias || !inventarioFechaCaducidad || !productoId) {
                     res.send("Debe enviar los datos completos")
                     msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    buscarInventario.inventarioExistencia = inventarioExistencia
+                    buscarInventario.inventarioExistencias = inventarioExistencias
                     buscarInventario.inventarioFechaCaducidad = inventarioFechaCaducidad
                     buscarInventario.productoId = productoId
                     await buscarInventario.save()
                     console.log(buscarInventario)
-                    msj("Debe enviar el Id del Carrito", 200, [], res)
+                    msj("Registro actualizado", 200, [], res)
                 }
             }
         }

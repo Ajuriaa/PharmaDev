@@ -12,18 +12,14 @@ exports.GuardarProducto = async (req, res) => {
     if(!validacion.isEmpty()){
         msj("Los datos ingresados no son validos", 200, validacion.array(), res)
     }else{
-        const {productoNombre, productoDescripcion, productoPrecio, productoFechaCreado, productoFechaPublicado, productoFechaEditado, productoActivo, laboratorioId, presentacionId} = req.body
-        if (!productoNombre || !productoDescripcion || !productoPrecio || !productoFechaCreado || !productoFechaPublicado || !productoFechaEditado || !productoActivo || !laboratorioId || !presentacionId) {
+        const {productoNombre, productoDescripcion, productoPrecio,laboratorioId, presentacionId} = req.body
+        if (!productoNombre || !productoDescripcion || !productoPrecio || !laboratorioId || !presentacionId) {
             res.send("Debe enviar los datos completos")
         }else{
             const nuevoProducto = await Productos.create({
                 productoNombre: productoNombre,
                 productoDescripcion: productoDescripcion,
                 productoPrecio: productoPrecio,
-                productoFechaCreado: productoFechaCreado,
-                productoFechaPublicado: productoFechaPublicado,
-                productoFechaEditado: productoFechaEditado,
-                productoActivo: productoActivo,
                 laboratorioId: laboratorioId,
                 presentacionId: presentacionId
             }).then((dato)=>{
@@ -31,7 +27,7 @@ exports.GuardarProducto = async (req, res) => {
                 res.send("Registro almacenado correctamente")
             }).catch((error)=>{
                 console.log(error)
-                res.send("Error al guardar los datos")
+                res.send("Error al almacenar el producto")
             })
         }
     }
