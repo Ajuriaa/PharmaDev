@@ -4,7 +4,7 @@ const estrategiaJWT = require("passport-jwt").Strategy
 const extraerJWT = require("passport-jwt").ExtractJwt
 const jWT = require("jsonwebtoken")
 const moment = require("moment")
-const duracion = moment.duration(50,"m").asSeconds()
+const duracion = moment.duration(7,"d").asSeconds()
 const clave = 'MyClaveSegura'
 exports.getToken = (data)=>{
     console.log(duracion)
