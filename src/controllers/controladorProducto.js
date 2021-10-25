@@ -7,6 +7,18 @@ exports.listarProductos = async (req, res) => {
     msj("Peticion procesada correctamente", 200, pro, res)
 }
 
+exports.buscarProducto = async (req, res) => {
+    const {busqueda} = req.body
+    const pro = await Productos.findAll({
+        where: {
+            someAttribute: {
+                [Op.like]: `%${busqueda}%`
+            }
+        }
+    })
+    msj("Peticion procesada correctamente", 200, pro, res)
+}
+
 exports.GuardarProducto = async (req, res) => {
     const validacion = validationResult(req)
     if(!validacion.isEmpty()){
