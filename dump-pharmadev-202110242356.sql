@@ -31,7 +31,7 @@ CREATE TABLE `carrito` (
   PRIMARY KEY (`carritoId`),
   KEY `carrito_FK` (`usuarioId`),
   CONSTRAINT `carrito_FK` FOREIGN KEY (`usuarioId`) REFERENCES `usuario` (`usuarioId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `carrito` (
 
 LOCK TABLES `carrito` WRITE;
 /*!40000 ALTER TABLE `carrito` DISABLE KEYS */;
+INSERT INTO `carrito` VALUES (4,'0607199901067','2021-10-23 07:38:59','2021-10-23 07:38:59','inactivo');
 /*!40000 ALTER TABLE `carrito` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +64,7 @@ CREATE TABLE `carritoproducto` (
   KEY `CarritoProducto_fk1` (`carritoId`),
   CONSTRAINT `CarritoProducto_fk0` FOREIGN KEY (`productoId`) REFERENCES `producto` (`productoId`),
   CONSTRAINT `CarritoProducto_fk1` FOREIGN KEY (`carritoId`) REFERENCES `carrito` (`carritoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,6 +73,7 @@ CREATE TABLE `carritoproducto` (
 
 LOCK TABLES `carritoproducto` WRITE;
 /*!40000 ALTER TABLE `carritoproducto` DISABLE KEYS */;
+INSERT INTO `carritoproducto` VALUES (3,1,4,'2021-10-24 04:43:15','0000-00-00 00:00:00',3,1);
 /*!40000 ALTER TABLE `carritoproducto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,13 +85,14 @@ DROP TABLE IF EXISTS `inventario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `inventario` (
-  `inventarioId` int(11) NOT NULL,
+  `inventarioId` int(11) NOT NULL AUTO_INCREMENT,
   `inventarioExistencias` float NOT NULL,
   `inventarioFechaCaducidad` date NOT NULL,
   `productoId` int(11) NOT NULL,
-  KEY `Inventario_fk0` (`productoId`),
-  CONSTRAINT `Inventario_fk0` FOREIGN KEY (`productoId`) REFERENCES `producto` (`productoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`inventarioId`),
+  KEY `inventario_FK` (`productoId`),
+  CONSTRAINT `inventario_FK` FOREIGN KEY (`productoId`) REFERENCES `producto` (`productoId`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,6 +101,7 @@ CREATE TABLE `inventario` (
 
 LOCK TABLES `inventario` WRITE;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
+INSERT INTO `inventario` VALUES (2,230,'2022-01-01',1),(3,230,'2022-01-01',1);
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +117,7 @@ CREATE TABLE `laboratorio` (
   `laboratorioNombre` varchar(255) NOT NULL,
   `laboratorioDescripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`laboratorioId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +126,7 @@ CREATE TABLE `laboratorio` (
 
 LOCK TABLES `laboratorio` WRITE;
 /*!40000 ALTER TABLE `laboratorio` DISABLE KEYS */;
+INSERT INTO `laboratorio` VALUES (1,'Lab L&L','Distribuidora de farmacos');
 /*!40000 ALTER TABLE `laboratorio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +203,7 @@ CREATE TABLE `presentacion` (
   `presentacionNombre` varchar(255) NOT NULL,
   `presentacionDescripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`presentacionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,6 +212,7 @@ CREATE TABLE `presentacion` (
 
 LOCK TABLES `presentacion` WRITE;
 /*!40000 ALTER TABLE `presentacion` DISABLE KEYS */;
+INSERT INTO `presentacion` VALUES (1,'Tabletas','Caja blanca, pequeña de 12 unidades.');
 /*!40000 ALTER TABLE `presentacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,14 +233,14 @@ CREATE TABLE `producto` (
   `productoFechaPublicado` datetime NOT NULL,
   `productoFechaEditado` datetime NOT NULL,
   `productoActivo` tinyint(1) NOT NULL,
-  `marcaId` int(11) NOT NULL,
   `presentacionId` int(11) NOT NULL,
+  `laboratorioId` int(11) DEFAULT NULL,
   PRIMARY KEY (`productoId`),
-  KEY `Producto_fk1` (`marcaId`),
   KEY `Producto_fk2` (`presentacionId`),
-  CONSTRAINT `Producto_fk1` FOREIGN KEY (`marcaId`) REFERENCES `laboratorio` (`laboratorioId`),
-  CONSTRAINT `Producto_fk2` FOREIGN KEY (`presentacionId`) REFERENCES `presentacion` (`presentacionId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `producto_FK` (`laboratorioId`),
+  CONSTRAINT `Producto_fk2` FOREIGN KEY (`presentacionId`) REFERENCES `presentacion` (`presentacionId`),
+  CONSTRAINT `producto_FK` FOREIGN KEY (`laboratorioId`) REFERENCES `laboratorio` (`laboratorioId`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +249,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES (1,'Acetaminofen','Alivia la fiebre, dolor de cabeza y dolores musculares.','',50,'2021-10-24 03:45:08','2021-10-24 03:45:08','0000-00-00 00:00:00',1,1,1);
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,6 +282,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES ('0607199901067','Lissbeth Peralta','96864916','lissbethperalta71@gmail.com','$2b$10$IrDfM6dKjy0h9orNwJvTWO/pvT1w1GYeBqVvRQ6AzTwoFb7095Bma',0,'2021-10-23 07:14:16','1999-10-15','Col. Nueva Esperanza','f','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -291,4 +299,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-21  1:47:24
+-- Dump completed on 2021-10-24 23:56:12
