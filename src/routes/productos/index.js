@@ -44,4 +44,5 @@ router.put('/',
     body('presentacionId').isInt().withMessage('Este campo no puede estar vacio'),
     controladorAutenticacion.validarAutenticado,
     controladorProducto.ActualizarQueryProducto)
+    router.post('/busqueda',controladorAutenticacion.validarAutenticado,controladorProducto.buscarProducto)
 module.exports = router
