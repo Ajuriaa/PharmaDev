@@ -8,7 +8,7 @@ const {
 const controladoOrdenes = require('../../controllers/controladorOrdenes')
 const controladorAutenticacion = require("../../controllers/controladorAutenticacion")
 
-router.get('/',
+router.post('/',
     body('usuarioId').isLength({
         min: 13,
         max: 13
@@ -30,7 +30,7 @@ router.get('/',
     .withMessage('Debe ingresar solo numeros en Total'),
     controladorAutenticacion.validarAutenticado,
     controladoOrdenes.listarOrdenes)
-router.post('/', controladorAutenticacion.validarAutenticado, controladoOrdenes.Guardar)
+router.get('/', controladorAutenticacion.validarAutenticado, controladoOrdenes.Guardar)
 router.delete('/', controladorAutenticacion.validarAutenticado, controladoOrdenes.Eliminar)
 router.put('/',
     body('usuarioId').isLength({
