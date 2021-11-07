@@ -15,8 +15,6 @@ router.post('/',
     .withMessage('El numero de identidad debe contener 13 numeros')
     .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
     .withMessage('Debe ingresar solo numeros en el identificador de usuario'),
-    body('usuarioCorreo').isEmail()
-    .withMessage('Debe ingresar un correo electronico valido'),
     body('usuarioNombre').isLength({
         min: 5
     })
@@ -27,13 +25,6 @@ router.post('/',
     .withMessage('La longitud minima de la contraseña es de 5+ caracteres')
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d@$.!%*#?&]/)
     .withMessage('La contraseña debe contener mayusculas minusculas y un numero'),
-    body('usuarioTelefono').isLength({
-        min: 8,
-        min: 8
-    })
-    .withMessage('El numero de telefono debe contener 8 caracteres')
-    .matches(/^[+]?([0-9][0-9]*(?:[\.][0-9]*)?|0*\.0*[1-9][0-9]*)(?:[eE][+-][0-9]+)?$/)
-    .withMessage('El numero de telefono solo debe contener numeros'),
     controladorUsuarios.Guardar)
 
 

@@ -7,7 +7,6 @@ const Usuario = db.define(
         usuarioId: {
             type: sequelize.STRING(13),
             primaryKey: true,
-            autoIncrement: true,
             allowNull: false,
         },
         usuarioNombre: {
@@ -24,17 +23,6 @@ const Usuario = db.define(
         },
         usuarioCorreo: {
             type: sequelize.STRING(50),
-            unique: {
-                msg:  'El email necesita ser unico'
-            },
-            validate: {
-                isEmail: {
-                    msg: 'Email no valido'
-                },
-                notEmpty: {
-                    msg: 'Ingrese un email'
-                }
-            }
         },
         usuarioContrasena: {
             type: sequelize.STRING(50),

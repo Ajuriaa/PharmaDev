@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: pharmadev
 -- ------------------------------------------------------
--- Server version	5.5.5-10.4.14-MariaDB
+-- Server version	5.5.5-10.4.20-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -263,15 +263,15 @@ DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE `usuario` (
   `usuarioId` varchar(13) NOT NULL,
   `usuarioNombre` varchar(255) NOT NULL,
-  `usuarioTelefono` varchar(255) NOT NULL,
-  `usuarioCorreo` varchar(255) NOT NULL,
+  `usuarioTelefono` varchar(255) DEFAULT NULL,
+  `usuarioCorreo` varchar(255) DEFAULT NULL,
   `usuarioContrasena` varchar(255) NOT NULL,
-  `usuarioAdmin` tinyint(1) NOT NULL,
-  `usuarioRegistradoEl` datetime NOT NULL,
-  `usuarioFechaNacimiento` date NOT NULL,
-  `usuarioDireccion` varchar(255) NOT NULL,
-  `usuarioSexo` varchar(1) NOT NULL,
-  `usuarioUltimoLog` datetime NOT NULL,
+  `usuarioAdmin` tinyint(1) NOT NULL DEFAULT 0,
+  `usuarioRegistradoEl` datetime DEFAULT NULL,
+  `usuarioFechaNacimiento` date DEFAULT NULL,
+  `usuarioDireccion` varchar(255) DEFAULT NULL,
+  `usuarioSexo` varchar(1) DEFAULT NULL,
+  `usuarioUltimoLog` datetime DEFAULT NULL,
   PRIMARY KEY (`usuarioId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -282,7 +282,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES ('0607199901067','Lissbeth Peralta','96864916','lissbethperalta71@gmail.com','$2b$10$IrDfM6dKjy0h9orNwJvTWO/pvT1w1GYeBqVvRQ6AzTwoFb7095Bma',0,'2021-10-23 07:14:16','1999-10-15','Col. Nueva Esperanza','f','0000-00-00 00:00:00');
+INSERT INTO `usuario` VALUES ('0601199900202','Quiroz L','89102570',NULL,'$2b$10$n35IKukAanQLPFjWL6SQ0O.q1LYJozEFfKbTJO5gAz9cz.DmPVSv.',0,'2021-11-07 11:19:28',NULL,NULL,NULL,NULL),('0607199901067','Lissbeth Peralta','96864916','lissbethperalta71@gmail.com','$2b$10$IrDfM6dKjy0h9orNwJvTWO/pvT1w1GYeBqVvRQ6AzTwoFb7095Bma',0,'2021-10-23 07:14:16','1999-10-15','Col. Nueva Esperanza','f','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,4 +299,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-24 23:56:12
+-- Dump completed on 2021-11-07  5:21:19

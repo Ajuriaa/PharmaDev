@@ -1,142 +1,154 @@
-    const Productos = require('../models/modeloProducto')
-    const msj = require('../components/mensaje')
+const Productos = require('../models/modeloProducto')
+const msj = require('../components/mensaje')
+const findImgs = require("../components/img")
+const {
+    validationResult
+} = require('express-validator')
+const {
+    Op
+} = require("sequelize")
+exports.listarProductos = async (req, res) => {
+    const pro = await Productos.findAll({
+        where: {
+            productoActivo: true
+        }
+    })
+    const prod = []
+    pro.forEach(element => {
+        prod.push(pro)
+        let contents = findImgs(element.productoId)
+        if (contents) {
+            // console.log(contents)
+        prod.push(contents)
+
+        }
+
+    });
+    msj("Peticion procesada correctamente", 200, prod, res)
+}
+
+exports.buscarProducto = async (req, res) => {
     const {
-        validationResult
-    } = require('express-validator')
-    const {
-        Op
-    } = require("sequelize")
-    exports.listarProductos = async (req, res) => {
-        const pro = await Productos.findAll({
-            where: {
+        busqueda
+    } = req.body
+    const pro = await Productos.findAll({
+        where: {
+            [Op.and]: [{
+                productoNombre: {
+                    [Op.like]: `%${busqueda}%`
+                }
+            }, {
                 productoActivo: true
-            }
-        })
-        msj("Peticion procesada correctamente", 200, pro, res)
-    }
+            }]
+        }
+    })
+    msj("Peticion procesada correctamente", 200, pro, res)
+}
 
-    exports.buscarProducto = async (req, res) => {
+exports.GuardarProducto = async (req, res) => {
+    const validacion = validationResult(req)
+    if (!validacion.isEmpty()) {
+        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+    } else {
         const {
-            busqueda
+            productoNombre,
+            productoDescripcion,
+            productoPrecio,
+            laboratorioId,
+            presentacionId
         } = req.body
-        const pro = await Productos.findAll({
-            where: {
-                [Op.and]: [{
-                    productoNombre: {
-                        [Op.like]: `%${busqueda}%`
-                    }
-                }, {
-                    productoActivo: true
-                }]
-            }
-        })
-        msj("Peticion procesada correctamente", 200, pro, res)
-    }
-
-    exports.GuardarProducto = async (req, res) => {
-        const validacion = validationResult(req)
-        if (!validacion.isEmpty()) {
-            msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+        if (!productoNombre || !productoDescripcion || !productoPrecio || !laboratorioId || !presentacionId) {
+            res.send("Debe enviar los datos completos")
         } else {
-            const {
-                productoNombre,
-                productoDescripcion,
-                productoPrecio,
-                laboratorioId,
-                presentacionId
-            } = req.body
-            if (!productoNombre || !productoDescripcion || !productoPrecio || !laboratorioId || !presentacionId) {
-                res.send("Debe enviar los datos completos")
-            } else {
-                const nuevoProducto = await Productos.create({
-                    productoNombre: productoNombre,
-                    productoDescripcion: productoDescripcion,
-                    productoPrecio: productoPrecio,
-                    laboratorioId: laboratorioId,
-                    presentacionId: presentacionId
-                }).then((dato) => {
-                    console.log(dato)
-                    res.send("Registro almacenado correctamente")
-                }).catch((error) => {
-                    console.log(error)
-                    res.send("Error al almacenar el producto")
-                })
-            }
+            const nuevoProducto = await Productos.create({
+                productoNombre: productoNombre,
+                productoDescripcion: productoDescripcion,
+                productoPrecio: productoPrecio,
+                laboratorioId: laboratorioId,
+                presentacionId: presentacionId
+            }).then((dato) => {
+                console.log(dato)
+                res.send("Registro almacenado correctamente")
+            }).catch((error) => {
+                console.log(error)
+                res.send("Error al almacenar el producto")
+            })
         }
     }
-    exports.EliminarQueryProducto = async (req, res) => {
-        const {
-            id
-        } = req.query
-        if (!id) {
-            res.send("Debe enviar el id del producto!!!")
+}
+exports.EliminarQueryProducto = async (req, res) => {
+    const {
+        id
+    } = req.query
+    if (!id) {
+        res.send("Debe enviar el id del producto!!!")
+    } else {
+        const buscarProducto = await Producto.findOne({
+            where: {
+                id: id,
+            }
+        })
+        if (!buscarProducto) {
+            res.send("El Producto no existe!!!")
         } else {
-            const buscarProducto = await Producto.findOne({
+            await Producto.destroy({
                 where: {
                     id: id,
                 }
+            }).then((data) => {
+                console.log(data)
+                res.send("El registro ha sido eliminado")
+            }).catch((error) => {
+                console.log(error)
+                res.send("El registro no fue eliminado, porque hay un eror en el servidor")
             })
-            if (!buscarProducto) {
-                res.send("El Producto no existe!!!")
-            } else {
-                await Producto.destroy({
-                    where: {
-                        id: id,
-                    }
-                }).then((data) => {
-                    console.log(data)
-                    res.send("El registro ha sido eliminado")
-                }).catch((error) => {
-                    console.log(error)
-                    res.send("El registro no fue eliminado, porque hay un eror en el servidor")
-                })
-            }
         }
     }
+}
 
-    exports.ActualizarQueryProducto = async (req, res) => {
-        const validacion = validationResult(req)
-        if (!validacion.isEmpty()) {
-            msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+exports.ActualizarQueryProducto = async (req, res) => {
+    const validacion = validationResult(req)
+    if (!validacion.isEmpty()) {
+        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+    } else {
+        const {
+            productoId,
+            productoNombre,
+            productoDescripcion,
+            productoPrecio,
+            productoFechaCreado,
+            productoFechaPublicado,
+            productoFechaEditado,
+            productoActivo,
+            laboratorioId,
+            presentacionId
+        } = req.body
+        if (!productoId) {
+            msj("Debe enviar el identificador del Producto", 200, [], res)
         } else {
-            const {
-                productoId,
-                productoNombre,
-                productoDescripcion,
-                productoPrecio,
-                productoFechaCreado,
-                productoFechaPublicado,
-                productoFechaEditado,
-                productoActivo,
-                laboratorioId,
-                presentacionId
-            } = req.body
-            if (!productoId) {
-                msj("Debe enviar el identificador del Producto", 200, [], res)
+            var buscarProducto = await producto.findOne({
+                where: {
+                    productoId: productoId,
+                }
+            })
+            if (!buscarProducto) {
+                msj("El producto no existe", 200, pro, res)
             } else {
-                var buscarProducto = await producto.findOne({
-                    where: {
-                        productoId: productoId,
-                    }
-                })
-                if (!buscarProducto) {
-                    msj("El producto no existe", 200, pro, res)
+                if (!productoNombre || !productoDescripcion || !productoPrecio || !productoFechaCreado || !productoFechaPublicado || !productoFechaEditado || !productoActivo || !laboratorioId || !presentacionId) {
+                    msj("Debe enviar los datos completos", 200, [], res)
                 } else {
-                    if (!productoNombre || !productoDescripcion || !productoPrecio || !productoFechaCreado || !productoFechaPublicado || !productoFechaEditado || !productoActivo || !laboratorioId || !presentacionId) {
-                        msj("Debe enviar los datos completos", 200, [], res)
-                    } else {
-                        buscarProducto.productoNombre = productoNombre
-                        buscarProducto.productoDescripcion = productoDescripcion
-                        buscarProducto.productoPrecio = productoPrecio
-                        buscarProducto.productoFechaCreado = productoFechaEditado
-                        buscarProducto.productoFechaPublicado = productoFechaPublicado
-                        buscarProducto.productoFechaEditado = productoFechaEditado
-                        buscarProducto.laboratorioId = laboratorioId
-                        buscarProducto.presentacionId = presentacionId
-                        await buscarProducto.save()
-                        msj("Registro actualizado", 200, [], res)
-                    }
+                    buscarProducto.productoNombre = productoNombre
+                    buscarProducto.productoDescripcion = productoDescripcion
+                    buscarProducto.productoPrecio = productoPrecio
+                    buscarProducto.productoFechaCreado = productoFechaEditado
+                    buscarProducto.productoFechaPublicado = productoFechaPublicado
+                    buscarProducto.productoFechaEditado = productoFechaEditado
+                    buscarProducto.laboratorioId = laboratorioId
+                    buscarProducto.presentacionId = presentacionId
+                    await buscarProducto.save()
+                    msj("Registro actualizado", 200, [], res)
                 }
             }
         }
     }
+}

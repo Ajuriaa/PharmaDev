@@ -30,7 +30,7 @@ exports.inicioSesion = async (req, res) => {
             }
         })
         if (!buscarUsuario) {
-            msj("El usuario no existe o se encuentra inactivo", 200, [], res)
+            msj("El usuario no existe o se encuentra inactivo", 200, "", res)
         } else {
             if (!buscarUsuario.verificarContrasena(usuarioContrasena, buscarUsuario.usuarioContrasena)) {
                 msj("El usuario no existe o contraseña invalida", 200, [], res)
@@ -47,11 +47,11 @@ exports.inicioSesion = async (req, res) => {
                 const token = passport.getToken({
                     usuarioId: buscarUsuario.usuarioId
                 })
-                const data = {
-                    token: token,
-                    usuario: usu
+                usu.token = token
+                var datos ={ 
+                    usuario : usu
                 }
-                msj("Bienvenido, " + usu.usuarioNombre, 200, data, res)
+                msj("Bienvenido, " + usu.usuarioNombre, 200, datos, res)
             }
         }
 

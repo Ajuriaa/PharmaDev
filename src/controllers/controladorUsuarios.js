@@ -7,7 +7,6 @@ const {
     Op
 } = require("sequelize")
 
-
 exports.listarUsuarios = async (req, res) => {
     const usu = await Usuario.findAll()
     msj("Peticion procesada correctamente", 200, usu, res)
@@ -28,14 +27,38 @@ exports.Guardar = async (req, res) => {
             usuarioAdmin,
             usuarioFechaNacimiento,
             usuarioDireccion,
-            usuarioSexo
+            usuarioSexo,
+            usuarioImagen
+
         } = req.body
+        if(!usuarioTelefono){
+            if(!usuarioCorreo){
+                msj("Debe agregar su teléfono o correo electrónico", 200, [], res)
+                return
+            }
+        }
+        if(!usuarioCorreo){
+            if(!usuarioTelefono){
+                msj("Debe agregar su teléfono o correo electrónico", 200, [], res)
+                return
+            }
+        }
+        if (usuarioImagen) {
+            let base64Data = usuarioImagen.replace(/^data:image\/png;base64,/, "");
+            require("fs").writeFile("uploads/profile/"+usuarioId+".png", base64Data, 'base64', function (err) {
+                console.log(err);
+            });
+
+        }
         const BuscarUsuario = await Usuario.findOne({
             where: {
-                [Op.or]: {
+                [Op.or]: [{
                     usuarioCorreo: usuarioCorreo,
                     usuarioId: usuarioId
-                }
+                }, {
+                    usuarioTelefono: usuarioTelefono,
+                    usuarioId: usuarioId
+                }]
             }
         })
         if (!BuscarUsuario) {
