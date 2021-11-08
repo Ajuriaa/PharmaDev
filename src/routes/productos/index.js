@@ -6,7 +6,10 @@ const router = Router()
 router.get('/', 
     controladorAutenticacion.validarAutenticado,
     controladorProducto.listarProductos)
-router.post('/',
+router.post('/productos',controladorAutenticacion.validarAutenticado,controladorProducto.buscarProducto)
+router.post('/producto',controladorAutenticacion.validarAutenticado,controladorProducto.buscarProducto)
+
+    router.post('/',
     body('productoNombre').isLength({
         min: 3, max: 25
     })

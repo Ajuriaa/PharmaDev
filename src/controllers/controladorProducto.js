@@ -18,7 +18,7 @@ exports.listarProductos = async (req, res) => {
     msj("PR_OK", 200, pro, res)
 }
 
-exports.buscarProducto = async (req, res) => {
+exports.buscarProductos = async (req, res) => {
     const {
         busqueda
     } = req.body
@@ -28,6 +28,22 @@ exports.buscarProducto = async (req, res) => {
                 productoNombre: {
                     [Op.like]: `%${busqueda}%`
                 }
+            }, {
+                productoActivo: true
+            }]
+        }
+    })
+    msj("Peticion procesada correctamente", 200, pro, res)
+}
+
+exports.buscarProducto = async (req, res) => {
+    const {
+        productoId
+    } = req.body
+    const pro = await Productos.findAll({
+        where: {
+            [Op.and]: [{
+                productoId: productoId
             }, {
                 productoActivo: true
             }]
