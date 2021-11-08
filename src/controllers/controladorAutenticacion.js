@@ -14,7 +14,7 @@ exports.validarAutenticado = passport.validarAutenticado
 exports.inicioSesion = async (req, res) => {
     const validacion = validationResult(req)
     if (!validacion.isEmpty) {
-        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+        msj("Los datos ingresados no son validos", 200, "", res)
     } else {
         const {
             usuario,
@@ -33,7 +33,7 @@ exports.inicioSesion = async (req, res) => {
             msj("El usuario no existe o se encuentra inactivo", 200, "", res)
         } else {
             if (!buscarUsuario.verificarContrasena(usuarioContrasena, buscarUsuario.usuarioContrasena)) {
-                msj("El usuario no existe o contraseña invalida", 200, [], res)
+                msj("El usuario no existe o contraseña invalida", 200, "", res)
             } else {
                 const usu = {
                     usuarioNombre: buscarUsuario.usuarioNombre,
