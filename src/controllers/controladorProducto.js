@@ -7,24 +7,15 @@ const {
 const {
     Op
 } = require("sequelize")
+
+
 exports.listarProductos = async (req, res) => {
     const pro = await Productos.findAll({
         where: {
             productoActivo: true
         }
     })
-    const prod = []
-    pro.forEach(element => {
-        prod.push(pro)
-        let contents = findImgs(element.productoId)
-        if (contents) {
-            // console.log(contents)
-        prod.push(contents)
-
-        }
-
-    });
-    msj("Peticion procesada correctamente", 200, prod, res)
+    msj("PR_OK", 200, pro, res)
 }
 
 exports.buscarProducto = async (req, res) => {
@@ -55,7 +46,8 @@ exports.GuardarProducto = async (req, res) => {
             productoDescripcion,
             productoPrecio,
             laboratorioId,
-            presentacionId
+            presentacionId,
+            productoImagen
         } = req.body
         if (!productoNombre || !productoDescripcion || !productoPrecio || !laboratorioId || !presentacionId) {
             res.send("Debe enviar los datos completos")
@@ -65,7 +57,8 @@ exports.GuardarProducto = async (req, res) => {
                 productoDescripcion: productoDescripcion,
                 productoPrecio: productoPrecio,
                 laboratorioId: laboratorioId,
-                presentacionId: presentacionId
+                presentacionId: presentacionId,
+                productoImagen: productoImagen
             }).then((dato) => {
                 console.log(dato)
                 res.send("Registro almacenado correctamente")

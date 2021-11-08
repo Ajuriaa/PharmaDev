@@ -39,6 +39,9 @@ const Producto = db.define(
         },
         presentacionId:{
             type: sequelize.INTEGER,
+        },
+        productoImagen:{
+            type: sequelize.STRING,
         }
     },{
         sequelize,

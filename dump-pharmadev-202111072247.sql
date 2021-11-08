@@ -73,7 +73,6 @@ CREATE TABLE `carritoproducto` (
 
 LOCK TABLES `carritoproducto` WRITE;
 /*!40000 ALTER TABLE `carritoproducto` DISABLE KEYS */;
-INSERT INTO `carritoproducto` VALUES (3,1,4,'2021-10-24 04:43:15','0000-00-00 00:00:00',3,1);
 /*!40000 ALTER TABLE `carritoproducto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -101,7 +100,6 @@ CREATE TABLE `inventario` (
 
 LOCK TABLES `inventario` WRITE;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
-INSERT INTO `inventario` VALUES (2,230,'2022-01-01',1),(3,230,'2022-01-01',1);
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,7 +115,7 @@ CREATE TABLE `laboratorio` (
   `laboratorioNombre` varchar(255) NOT NULL,
   `laboratorioDescripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`laboratorioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,7 +124,7 @@ CREATE TABLE `laboratorio` (
 
 LOCK TABLES `laboratorio` WRITE;
 /*!40000 ALTER TABLE `laboratorio` DISABLE KEYS */;
-INSERT INTO `laboratorio` VALUES (1,'Lab L&L','Distribuidora de farmacos');
+INSERT INTO `laboratorio` VALUES (1,'Lab L&L','Distribuidora de farmacos'),(2,'BAYER','una empresa quÃ­mico-farmacÃ©utica alemana fundada en Barmen, Alemania| en 1863.'),(3,'Pfizer','empresa farmacÃ©utica estadounidense que, despuÃ©s de diversas fusiones llevadas a cabo con Pharmacia and Upjohn y Parke Davis, es el laboratorio lÃ­der a nivel mundial en el sector farmacÃ©utico. '),(4,'gsk','empresa britÃ¡nica de productos farmacÃ©uticos, productos de cuidado dental y de cuidado de la salud.'),(5,'Roche','empresa que se dedica a la industria farmacÃ©utica, tiene sus sedes principales en las ciudad de Basilea (Suiza) y ParÃ­s, Francia.');
 /*!40000 ALTER TABLE `laboratorio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -203,7 +201,7 @@ CREATE TABLE `presentacion` (
   `presentacionNombre` varchar(255) NOT NULL,
   `presentacionDescripcion` varchar(255) NOT NULL,
   PRIMARY KEY (`presentacionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,7 +210,7 @@ CREATE TABLE `presentacion` (
 
 LOCK TABLES `presentacion` WRITE;
 /*!40000 ALTER TABLE `presentacion` DISABLE KEYS */;
-INSERT INTO `presentacion` VALUES (1,'Tabletas','Caja blanca, pequeña de 12 unidades.');
+INSERT INTO `presentacion` VALUES (1,'Tabletas','Caja blanca, pequeña de 12 unidades.'),(2,'Jarabe','Para principios activos solubles en agua, con alto contenido en azÃºcar'),(3,'Gotas',' presentaciones lÃ­quidas en las cuales el principio activo estÃ¡ mÃ¡s concentrado.'),(4,'Capsulas 100mg','Medicamentos sÃ³lidos formados por compresiÃ³n de sus constituyentes. 100Mg'),(5,'Inyeccion','Liquido ingresado en jeringa para introduccion directa en el clienta'),(6,'Capsulas 500mg','Medicamentos sÃ³lidos formados por compresiÃ³n de sus constituyentes. 500mg'),(7,'Polvo','El principio activo estÃ¡ en el polvo que debe prepararse antes de cada toma');
 /*!40000 ALTER TABLE `presentacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -229,18 +227,19 @@ CREATE TABLE `producto` (
   `productoDescripcion` varchar(255) NOT NULL,
   `productoCodigo` varchar(255) NOT NULL,
   `productoPrecio` float NOT NULL,
-  `productoFechaCreado` datetime NOT NULL,
-  `productoFechaPublicado` datetime NOT NULL,
-  `productoFechaEditado` datetime NOT NULL,
+  `productoFechaCreado` datetime DEFAULT NULL,
+  `productoFechaPublicado` datetime DEFAULT NULL,
+  `productoFechaEditado` datetime DEFAULT NULL,
   `productoActivo` tinyint(1) NOT NULL,
   `presentacionId` int(11) NOT NULL,
   `laboratorioId` int(11) DEFAULT NULL,
+  `productoImagen` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`productoId`),
   KEY `Producto_fk2` (`presentacionId`),
   KEY `producto_FK` (`laboratorioId`),
   CONSTRAINT `Producto_fk2` FOREIGN KEY (`presentacionId`) REFERENCES `presentacion` (`presentacionId`),
   CONSTRAINT `producto_FK` FOREIGN KEY (`laboratorioId`) REFERENCES `laboratorio` (`laboratorioId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +248,7 @@ CREATE TABLE `producto` (
 
 LOCK TABLES `producto` WRITE;
 /*!40000 ALTER TABLE `producto` DISABLE KEYS */;
-INSERT INTO `producto` VALUES (1,'Acetaminofen','Alivia la fiebre, dolor de cabeza y dolores musculares.','',50,'2021-10-24 03:45:08','2021-10-24 03:45:08','0000-00-00 00:00:00',1,1,1);
+INSERT INTO `producto` VALUES (2,'Panadol Ultra',' contiene una combinaciÃ³n de ingredientes clÃ­nicamente comprobados para el alivio rÃ¡pido de 5 tipos de dolor fuerte*, inclusive, la migraÃ±a.','',50,'2021-10-29 08:37:16','2021-10-29 08:37:16',NULL,1,4,2,'https://i.ibb.co/Tk1wyBR/2.jpg'),(3,'Tosan Adulto','Jarabe contra la tos y siÌ�ntomas de la gripe.combate la tos. Expectorante: fluidifica la flema facilitando la expectoracioÌ�n. AntihistamiÌ�nico: descongestiona la nariz y los bronquios.','',80,'2021-10-29 08:40:55','2021-10-29 08:40:55',NULL,1,2,4,'https://i.ibb.co/z478dCV/3.jpg'),(4,'Aspirina','Detiene la producciÃ³n de ciertas sustancias naturales que causan fiebre, dolor, inflamaciÃ³n y coÃ¡gulos sanguÃ­neos.','',100,'2021-10-29 08:42:25','2021-10-29 08:42:25',NULL,1,4,2,'https://i.ibb.co/TBVBB39/4.jpg'),(5,'Viagra',' se usa para tratar la disfunciÃ³n erÃ©ctil en los hombres (impotencia; incapacidad para tener una erecciÃ³n o mantenerla).','',450,'2021-10-29 08:43:33','2021-10-29 08:43:33',NULL,1,6,5,'https://i.ibb.co/TB5j7Dq/5.jpg'),(6,'Sudagrip','Antigripal con acciÃ³n antiviral y descongestionante, para estados gripales severos con congestiÃ³n nasal, tos con flema, fiebre, rinitis severa, dolor de cabeza y cuerpo.','',450,'2021-10-29 08:45:43','2021-10-29 08:45:43',NULL,1,7,3,'https://i.ibb.co/4ZSd1y5/6.png'),(7,'DoloNeurobion','es un medicamento que sirve para combatir el dolor y la inflamaciÃ³n','',250,'2021-10-29 08:47:52','2021-10-29 08:47:52',NULL,1,4,3,'https://i.ibb.co/7kwkd70/7.jpg'),(8,'Emulsion de Scott','Se utiliza cuando el organismo requiere de admistraciÃ³n mayor de vitaminas A y D, fÃ³sforo y calcio.','',120,'2021-10-29 08:49:00','2021-10-29 08:49:00',NULL,1,2,2,'https://i.ibb.co/xYdFszQ/8.jpg'),(9,'Nazil','Nazil es un medicamento oftaÃ¡lmico que contiene el principio activo nafazolina y sirve para el alivio de malestares transitorios ','',1500,'2021-10-29 08:50:35','2021-10-29 08:50:35',NULL,1,2,3,'https://i.ibb.co/k3LRHsB/9.jpg');
 /*!40000 ALTER TABLE `producto` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,7 +281,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES ('0601199900202','Quiroz L','89102570',NULL,'$2b$10$n35IKukAanQLPFjWL6SQ0O.q1LYJozEFfKbTJO5gAz9cz.DmPVSv.',0,'2021-11-07 11:19:28',NULL,NULL,NULL,NULL),('0607199901067','Lissbeth Peralta','96864916','lissbethperalta71@gmail.com','$2b$10$IrDfM6dKjy0h9orNwJvTWO/pvT1w1GYeBqVvRQ6AzTwoFb7095Bma',0,'2021-10-23 07:14:16','1999-10-15','Col. Nueva Esperanza','f','0000-00-00 00:00:00');
+INSERT INTO `usuario` VALUES ('0601199900202','Quiroz L','89102570',NULL,'$2b$10$n35IKukAanQLPFjWL6SQ0O.q1LYJozEFfKbTJO5gAz9cz.DmPVSv.',0,'2021-11-07 11:19:28',NULL,NULL,NULL,NULL),('0601199900208','Bob Espnja','88888888',NULL,'$2b$10$RWJWZ4/0nOkY0a7HW6yV2eB7evx6pawOL5BbsJait6pwFwuRynOTW',0,'2021-11-08 04:14:09',NULL,NULL,NULL,NULL),('0607199901067','Lissbeth Peralta','96864916','lissbethperalta71@gmail.com','$2b$10$IrDfM6dKjy0h9orNwJvTWO/pvT1w1GYeBqVvRQ6AzTwoFb7095Bma',0,'2021-10-23 07:14:16','1999-10-15','Col. Nueva Esperanza','f','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,4 +298,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-07  5:21:19
+-- Dump completed on 2021-11-07 22:47:19
