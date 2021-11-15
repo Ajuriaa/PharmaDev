@@ -1,4 +1,5 @@
 const Productos = require('../models/modeloProducto')
+const Inventario = require('../models/modeloInventario')
 const msj = require('../components/mensaje')
 const {
     validationResult
@@ -48,7 +49,7 @@ exports.buscarProducto = async (req, res) => {
     const {
         productoId
     } = req.body
-    const pro = await Productos.findAll({
+    const pro = await Productos.findOne({
         where: {
             [Op.and]: [{
                 productoId: productoId
@@ -57,7 +58,14 @@ exports.buscarProducto = async (req, res) => {
             }]
         }
     })
-    msj("Peticion procesada correctamente", 200, pro, res)
+    
+    const inv = await Inventario.findOne({
+        where:{
+            productoId: productoId
+        }
+    })
+    pro.inventario = inv.inventarioExistencias
+    msj("Peticion procesada correctamente", 200, [pro,inv], res)
 }
 
 exports.GuardarProducto = async (req, res) => {

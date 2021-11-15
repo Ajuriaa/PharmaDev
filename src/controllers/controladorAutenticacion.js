@@ -1,4 +1,5 @@
 const modeloUsuario = require("../models/modeloUsuario")
+const modeloCarrito = require("../models/modeloCarrito")
 const {
     validationResult
 } = require("express-validator")
@@ -9,6 +10,7 @@ const {
     Op
 } = require("sequelize")
 const Usuario = require("../models/modeloUsuario")
+
 
 exports.validarAutenticado = passport.validarAutenticado
 exports.inicioSesion = async (req, res) => {
@@ -35,7 +37,19 @@ exports.inicioSesion = async (req, res) => {
             if (!buscarUsuario.verificarContrasena(usuarioContrasena, buscarUsuario.usuarioContrasena)) {
                 msj("El usuario no existe o contraseña invalida", 200, "", res)
             } else {
+                buscarUsuario.usuarioUltimoLog = moment()
+                await buscarUsuario.save()
+                const buscarCarrito = await modeloCarrito.findOne({
+                    where:{
+                        [Op.and]: [{
+                            usuarioId: buscarUsuario.usuarioId
+                        }, {
+                            carritoEstado: 'Actual'
+                        }]
+                    }
+                })
                 const usu = {
+                    usuarioId: buscarUsuario.usuarioId,
                     usuarioNombre: buscarUsuario.usuarioNombre,
                     usuarioTelefono: buscarUsuario.usuarioTelefono,
                     usuarioCorreo: buscarUsuario.usuarioCorreo,
@@ -43,6 +57,7 @@ exports.inicioSesion = async (req, res) => {
                     usuarioFechaNacimiento: buscarUsuario.usuarioFechaNacimiento,
                     usuarioDireccion: buscarUsuario.usuarioDireccion,
                     usuarioSexo: buscarUsuario.usuarioSexo,
+                    carritoId: buscarCarrito.carritoId
                 }
                 const token = passport.getToken({
                     usuarioId: buscarUsuario.usuarioId

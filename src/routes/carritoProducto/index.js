@@ -11,6 +11,11 @@ const controladorAutenticacion = require("../../controllers/controladorAutentica
 router.get('/',
     controladorAutenticacion.validarAutenticado,
     controladorCarritoProducto.listarCarritoProductos)
+
+router.post('/productos',
+    controladorAutenticacion.validarAutenticado,
+    controladorCarritoProducto.listarProductos)
+
 router.post('/',
     body(
         "carritoProductoCantidad"

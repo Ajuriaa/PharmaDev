@@ -1,10 +1,23 @@
+const Productos = require('../models/modeloProducto')
 const CarritoProducto = require('../models/modeloCarritoProducto')
 const msj = require('../components/mensaje')
 const {
     validationResult
 } = require('express-validator')
+
+
 exports.listarCarritoProductos = async (req, res) => {
     const usu = await CarritoProducto.findAll()
+    msj("peticion procesada correctamente", 200, usu, res)
+}
+
+exports.listarProductos = async (req, res) => {
+    const {carritoId} = req.body
+    const usu = await CarritoProducto.findAll({
+        where:{
+            carritoId: carritoId
+        }
+    })
     msj("peticion procesada correctamente", 200, usu, res)
 }
 

@@ -1,5 +1,6 @@
 const Usuario = require('../models/modeloUsuario')
 const msj = require('../components/mensaje')
+const Carrito = require("../models/modeloCarrito")
 const {
     validationResult
 } = require('express-validator')
@@ -31,24 +32,17 @@ exports.Guardar = async (req, res) => {
             usuarioImagen
 
         } = req.body
-        if(!usuarioTelefono){
-            if(!usuarioCorreo){
+        if (!usuarioTelefono) {
+            if (!usuarioCorreo) {
                 msj("Debe agregar su teléfono o correo electrónico", 200, [], res)
                 return
             }
         }
-        if(!usuarioCorreo){
-            if(!usuarioTelefono){
+        if (!usuarioCorreo) {
+            if (!usuarioTelefono) {
                 msj("Debe agregar su teléfono o correo electrónico", 200, [], res)
                 return
             }
-        }
-        if (usuarioImagen) {
-            let base64Data = usuarioImagen.replace(/^data:image\/png;base64,/, "");
-            require("fs").writeFile("uploads/profile/"+usuarioId+".png", base64Data, 'base64', function (err) {
-                console.log(err);
-            });
-
         }
         const BuscarUsuario = await Usuario.findOne({
             where: {
@@ -72,7 +66,11 @@ exports.Guardar = async (req, res) => {
                 usuarioFechaNacimiento: usuarioFechaNacimiento,
                 usuarioDireccion: usuarioDireccion,
                 usuarioSexo: usuarioSexo
-            }).then((dato) => {
+            }).then(async(dato) => {
+                const nuevoCarrito = await Carrito.create({
+                    carritoEstado: "Actual",
+                    usuarioId: usuarioId
+                })
                 msj("Registro almacenado correctamente", 200, dato, res)
             }).catch((error) => {
                 msj("Error al guardar los datos", 200, error, res)

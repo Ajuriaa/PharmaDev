@@ -65,10 +65,6 @@ const Usuario = db.define(
             beforeCreate(Usuario){
                 const hash = bcrypt.hashSync(Usuario.usuarioContrasena,10)
                 Usuario.usuarioContrasena = hash
-            },
-            beforeUpdate(Usuario){
-                const hash = bcrypt.hashSync(Usuario.usuarioContrasena,10)
-                Usuario.usuarioContrasena = hash
             }
         }
 
