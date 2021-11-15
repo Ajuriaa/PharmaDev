@@ -1,6 +1,5 @@
 const Productos = require('../models/modeloProducto')
 const msj = require('../components/mensaje')
-const findImgs = require("../components/img")
 const {
     validationResult
 } = require('express-validator')
@@ -22,6 +21,15 @@ exports.buscarProductos = async (req, res) => {
     const {
         busqueda
     } = req.body
+    if (busqueda == "") {
+        const pro = await Productos.findAll({
+            where: {
+                productoActivo: true
+            }
+        })
+        msj("Peticion procesada correctamente", 200, pro, res)
+        return
+    }
     const pro = await Productos.findAll({
         where: {
             [Op.and]: [{
