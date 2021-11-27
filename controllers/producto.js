@@ -5,7 +5,11 @@ const { Op } = require('sequelize')
 
 exports.listarProductos = (req, res) => {
     db.Producto.findAll({
-        include: [db.Laboratorio, db.Presentacion,db.Inventario]
+        include: [db.Laboratorio, db.Presentacion,{model: db.Inventario, required:true,where:{
+            InventarioExistencia:{
+                [Op.gt]:1
+            }
+        }}]
     }).then(allP => msj("Peticion procesada correctamente", 200, allP, res))
 }
 
