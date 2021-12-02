@@ -63,7 +63,7 @@ exports.listarUsuarios = (req, res) => {
 }
 
 exports.Eliminar = (req, res) => {
-// Eliminar un usuario
+    // Eliminar un usuario
     const { Id } = req.body
     if (!Id) {
         msj("Debe enviar el numero de identidad del usuario", 200, "", res)
@@ -104,24 +104,69 @@ exports.Eliminar = (req, res) => {
     }
 }
 
-// Subir imagen de usuario
-exports.UploadImg = async (req, res) => {
+exports.Actualizar = async(req, res) => {
     const validacion = validationResult(req)
     if (!validacion.isEmpty()) {
-        msj("Los datos ingresados no son validos", 500, validacion.array(), res)
+        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
     } else {
-        let sampleFile;
-        let uploadPath;
-        if (!req.files || Object.keys(req.files).length === 0) {
-            return res.send(msj("No subió ningún archivo", 500, "", res));
+        const {
+            Id,
+            usuarioNombre,
+            usuarioTelefono,
+            usuarioCorreo
+        } = req.body
+        if (!usuarioTelefono) {
+            if (!usuarioCorreo) {
+                msj("Debe agregar su teléfono o correo electrónico", 200, "", res)
+                return
+            }
         }
-        sampleFile = req.files.sampleFile;
-        sampleFile.name = req.body.Id + '.png' || "error.png"
-        uploadPath = process.cwd() + '/public/users/' + sampleFile.name;
-        sampleFile.mv(uploadPath, function (err) {
-            if (err)
-                return res.send(msj("Ocurrió un error", 500, err, res));
-            res.send(msj("Archivo subido", 200, { uri: 'http:192.168.0.2:7777/users/' + sampleFile.name }, res));
-        });
+        if (!usuarioCorreo) {
+            if (!usuarioTelefono) {
+                msj("Debe agregar su teléfono o correo electrónico", 200, "", res)
+                return
+            }
+        }
+        const findU = await db.Usuario.findOne({ where: { Id: Id } })
+        if (findU) {
+            findU.usuarioNombre = usuarioNombre
+            findU.usuarioTelefono = usuarioTelefono
+            findU.usuarioCorreo = usuarioCorreo
+            await findU.save()
+            msj(`Registro actualizado  exitosamente.`, 200, '', res)
+            return
+        } {
+            msj(`El Usuario con el Identificador: ${Id} no existe.`, 500, '', res)
+            return
+        }
+    }
+}
+
+exports.ActualizarContrasena = async(req, res) => {
+    const validacion = validationResult(req)
+    if (!validacion.isEmpty()) {
+        msj("Los datos ingresados no son validos", 200, validacion.array(), res)
+    } else {
+        const {
+            Id,
+            oldP,
+            newP
+        } = req.body
+        const findU = await db.Usuario.findOne({ where: { Id: Id } })
+        if (findU) {
+            if (bcrypt.compareSync(oldP, findU.usuarioContrasena)) {
+                const hash = bcrypt.hashSync(newP, 10)
+                findU.usuarioContrasena = hash
+                await findU.save()
+                msj(`Registro actualizado  exitosamente.`, 200, '', res)
+                return
+            }else{
+                msj(`La contraseña es incorrecta`, 500, '', res)
+                return
+            }
+        } {
+            msj(`El Usuario con el Identificador: ${Id} no existe.`, 500, '', res)
+            return
+        }
     }
 }
