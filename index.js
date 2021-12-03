@@ -27,6 +27,7 @@ app.use('/api/autenticacion/', require('./routes/autenticacion'))
 app.use('/api/carritoproducto/', require('./routes/carritoproducto'))
 app.use('/api/laboratorio/', require('./routes/laboratorio'))
 app.use('/api/presentacion/', require('./routes/presentacion'))
+app.use('/api/orden/', require('./routes/orden'))
 
 // Iniciar el server
 db.sequelize.sync().then(() => {

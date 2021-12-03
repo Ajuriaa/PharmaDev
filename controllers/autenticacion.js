@@ -19,7 +19,9 @@ exports.inicioSesion = async (req, res) => {
             usuarioContrasena
         } = req.body
         const buscarUsuario = await db.Usuario.findOne({
-            include: [db.Carrito],
+            include: {model: db.Carrito, required:true,where:{
+                CarritoEstado:'actual'
+            }},
             where: {
                 [Op.or]: [{
                     usuarioCorreo: usuario
