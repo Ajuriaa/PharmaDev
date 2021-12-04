@@ -5,7 +5,17 @@ const { Op } = require('sequelize')
 
 exports.buscarProductos = (req, res) => {
     db.CarritoProducto.findAll({
-        include: [db.Producto],
+        include:{
+            model:db.Producto,
+            required: true,
+            include:[
+                db.Laboratorio, db.Presentacion,{model: db.Inventario, required:true,where:{
+                    InventarioExistencia:{
+                        [Op.gt]:1
+                    }
+                }}
+            ]
+        },
         where: {
             CarritoId: req.body.CarritoId
         }
