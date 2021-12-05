@@ -3,8 +3,10 @@ const db = require('../models')
 const { validationResult } = require('express-validator')
 const { Op } = require('sequelize')
 
-exports.findL = (req, res) => {
-    db.Laboratorio.findAll().then(allL => res.send(msj("Peticion procesada correctamente", 200, allL, res)))
+exports.findL =async(req, res) => {
+    const laboratorios = await db.Laboratorio.findAll()
+    msj("Peticion procesada correctamente", 200, laboratorios, res)
+    return
 }
 
 exports.findOneL = (req, res) => {
