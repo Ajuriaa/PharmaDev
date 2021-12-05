@@ -11,6 +11,14 @@ router.post('/login',
         .isLength({ min: 5 }).withMessage("La longitud minima de la contraseña es de 5 caracteres"),
     autenticacion.inicioSesion)
 
+router.post('/loginAdmin',
+    body("usuario")
+        .isEmpty()
+        .withMessage("Debe enviar los datos del usuario correo o telefono"),
+    body("usuarioContrasena")
+        .isLength({ min: 5 }).withMessage("La longitud minima de la contraseña es de 5 caracteres"),
+    autenticacion.inicioSesionAdmin)
+
 router.get('/error', autenticacion.ValidarToken)
 
 router.post('/recPass',

@@ -63,6 +63,65 @@ exports.inicioSesion = async (req, res) => {
 
     }
 }
+
+exports.inicioSesionAdmin = async (req, res) => {
+    const validacion = validationResult(req)
+    if (!validacion.isEmpty) {
+        msj("Los datos ingresados no son validos", 200, "", res)
+    } else {
+        const {
+            usuario,
+            usuarioContrasena
+        } = req.body
+        const buscarUsuario = await db.Usuario.findOne({
+            include: {model: db.Carrito, required:true,where:{
+                CarritoEstado:'actual'
+            }},
+            where: {
+                [Op.or]: [{
+                    usuarioCorreo: usuario
+                }, {
+                    usuarioTelefono: usuario
+                }]
+            }
+        })
+        // console.log(buscarUsuario)
+        if (!buscarUsuario) {
+            msj("El usuario no existe o se encuentra inactivo", 500, "", res)
+        }else if(buscarUsuario.usuarioAdmin !== 1){
+            msj("El usuario debe ser administrador", 500, "", res)
+        } else {
+            console.log(buscarUsuario.usuarioAdmin)
+            if (!bcrypt.compareSync(usuarioContrasena, buscarUsuario.usuarioContrasena)) {
+                msj("El usuario no existe o contraseña invalida", 200, "", res)
+            } else {
+                buscarUsuario.usuarioUltimoLog = moment()
+                await buscarUsuario.save()
+                const usu = {
+                    Id: buscarUsuario.Id,
+                    usuarioNombre: buscarUsuario.usuarioNombre,
+                    usuarioTelefono: buscarUsuario.usuarioTelefono,
+                    usuarioCorreo: buscarUsuario.usuarioCorreo,
+                    usuarioAdmin: buscarUsuario.usuarioAdmin,
+                    usuarioFechaNacimiento: buscarUsuario.usuarioFechaNacimiento,
+                    usuarioDireccion: buscarUsuario.usuarioDireccion,
+                    usuarioSexo: buscarUsuario.usuarioSexo,
+                    carritoId: buscarUsuario.Carritos
+                }
+                const token = passport.getToken({
+                    Id: buscarUsuario.Id
+                })
+                usu.token = token
+                var datos = {
+                    usuario: usu
+                }
+                msj("Bienvenido, " + usu.usuarioNombre, 200, datos, res)
+            }
+        }
+
+    }
+}
+
 exports.ValidarToken = async (req, res) => {
     const {
         data

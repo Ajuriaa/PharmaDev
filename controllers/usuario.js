@@ -20,8 +20,7 @@ exports.guardar = async (req, res) => {
             usuarioAdmin,
             usuarioFechaNacimiento,
             usuarioDireccion,
-            usuarioSexo,
-            usuarioImagen
+            usuarioSexo
         } = req.body
         if (!usuarioTelefono) {
             if (!usuarioCorreo) {
