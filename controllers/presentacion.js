@@ -60,7 +60,7 @@ exports.delP = (req, res) => {
 exports.updateP = async (req,res) => {
     const validacion = validationResult(req)
     if (!validacion.isEmpty()) {
-        msj("Los datos ingresados no son validos", 500, validacion.array(), res)
+        msj("Los datos ingresados no son validos", 501, validacion.array(), res)
     } else {
         const findP = await db.Presentacion.findOne({ where: { Id: req.body.Id } })
         if (findP) {
@@ -68,8 +68,10 @@ exports.updateP = async (req,res) => {
             findP.PresentacionDescripcion = req.body.PresentacionDescripcion
             await findP.save()
             msj(`Registro actualizado  exitosamente.`, 200, '', res)
+            return
         } {
-            msj(`La Presentacion con el Identificador: ${req.body.Id} no existe.`, 500, '', res)
+            msj(`La Presentacion con el Identificador: ${req.body.Id} no existe.`, 502, '', res)
+            return
         }
     }
 }
