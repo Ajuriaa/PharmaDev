@@ -15,7 +15,7 @@ const PORT = 7777;
 
 // Configuraciones base
 app.use(morgan('dev'))
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false}))
 app.use(express.json())
 app.use(passport.initialize())
 app.use('/', express.static(__dirname + '/public'));

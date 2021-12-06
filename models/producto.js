@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
         ProductoNombre: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
         },
         ProductoDescripcion:{
             type: DataTypes.STRING,
@@ -13,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             allowNull: false,
             validate:{
-                isNumeric: true,
-                len: [8,8] 
+                isNumeric: true
             }
         },
         productoActivo: {

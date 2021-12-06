@@ -23,3 +23,15 @@ exports.profileIMG = async (req, res) => {
         });
     }
 }
+
+exports.productIMG = async (id, img) => {
+    let uploadPath;
+    img.name = id + '.png'
+    uploadPath = process.cwd() + '/public/products/' + img.name;
+    img.mv(uploadPath, function (err) {
+        if (err)
+            return "Ocurrió un error"
+        else
+            return "Archivo subido"
+    });
+}
