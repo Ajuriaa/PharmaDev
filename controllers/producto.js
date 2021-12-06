@@ -91,8 +91,10 @@ exports.editarP = async (req, res) => {
                 InventarioFechaCaducidad: req.body.InventarioFechaCaducidad
             })
             msj(`Registro actualizado  exitosamente.`, 200, '', res)
+            return
         } {
             msj(`La Presentacion con el Identificador: ${req.body.Id} no existe.`, 500, '', res)
+            return
         }
     }
 }

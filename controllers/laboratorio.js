@@ -16,10 +16,15 @@ exports.findOneL = (req, res) => {
         return
     } else {
         db.Laboratorio.findOne({ where: { Id: req.body.Id } }).then(allL => {
-            if (allL)
+            if (allL){
                 res.send(msj("Peticion procesada correctamente", 200, allL, res))
-            else
+                return
+            } 
+            else{
                 res.send(msj(`El laboratorio con el Identificador: ${req.body.Id} no existe.`, 500, allL, res))
+                return
+            }
+                
         })
         return
     }
