@@ -4,7 +4,11 @@ const { validationResult } = require('express-validator')
 const { Op } = require('sequelize')
 
 exports.findL =async(req, res) => {
-    const laboratorios = await db.Laboratorio.findAll()
+    const laboratorios = await db.Laboratorio.findAll({
+        order: [
+            ['id', 'DESC'],
+        ],
+    })
     msj("Peticion procesada correctamente", 200, laboratorios, res)
     return
 }

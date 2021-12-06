@@ -4,7 +4,11 @@ const { validationResult } = require('express-validator')
 const { Op } = require('sequelize')
 
 exports.findP = (req, res) => {
-    db.Presentacion.findAll().then(allP => msj("Peticion procesada correctamente", 200, allP, res))
+    db.Presentacion.findAll({
+        order: [
+            ['id', 'DESC'],
+        ],
+    }).then(allP => msj("Peticion procesada correctamente", 200, allP, res))
     return
 }
 
